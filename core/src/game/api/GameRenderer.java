@@ -7,19 +7,26 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
+/*
+ * 
+ * 	KLASA ODPOWIEDZIALNA ZA RYSOWANIE OBIEKTOW
+ * 
+ */
+
+
 public class GameRenderer {
 
-	GameWorld myWorld;
-	OrthographicCamera camera;
-	ShapeRenderer shapeRenderer;
+	GameWorld myWorld; //deklaracja œwiata, czyli miejsca gdzie s¹ te obiekty do rysowania
+	OrthographicCamera camera; //camera taka od boku
+	ShapeRenderer shapeRenderer; //potrzebne do rysowania 
 	
 	public GameRenderer(GameWorld world)
 	{
-		myWorld = world;
+		myWorld = world; 
 		camera = new OrthographicCamera();
-		camera.setToOrtho(true);
+		camera.setToOrtho(true); //kamera obejmuje ca³y screen
 		shapeRenderer = new ShapeRenderer();
-		shapeRenderer.setProjectionMatrix(camera.combined);
+		shapeRenderer.setProjectionMatrix(camera.combined); //w sumie nie wiem
 		
 	}
 	
@@ -29,20 +36,14 @@ public class GameRenderer {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		
-		 shapeRenderer.begin(ShapeType.Filled);
+		 shapeRenderer.begin(ShapeType.Filled); 
+	     shapeRenderer.setColor(87 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
 
-	        // Chooses RGB Color of 87, 109, 120 at full opacity
-	        shapeRenderer.setColor(87 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
+	     shapeRenderer.rect(myWorld.getPlayer().getVelocity().x, myWorld.getPlayer().getVelocity().y,
+	                myWorld.getPlayer().getWidth(), myWorld.getPlayer().getHeight()); //rysowany player
 
-	        
-	        
-	        // Draws the rectangle from myWorld (Using ShapeType.Filled)
-	        shapeRenderer.rect(myWorld.getPlayer().getVelocity().x, myWorld.getPlayer().getVelocity().y,
-	                myWorld.getPlayer().getWidth(), myWorld.getPlayer().getHeight());
-
-	        // Tells the shapeRenderer to finish rendering
-	        // We MUST do this every time.
-	        shapeRenderer.end();
+	      
+	     shapeRenderer.end();
 
 	}
 	

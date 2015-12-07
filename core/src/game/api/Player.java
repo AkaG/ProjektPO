@@ -4,6 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 
+
+/*
+ * 
+ * 	NAPISANA TYLKO JAKO PRZYKLAD (w sumie ja tego nie pisa³em)
+ * 
+ */
+
 public class Player {
 
 	private Vector2 position;
@@ -49,6 +56,8 @@ public class Player {
     		 velocity.y+=10;
     	 }
     }
+    
+    ////////////////////////////////////// 	GETTERY I SETTERY
 
 	public Vector2 getPosition() {
 		return position;

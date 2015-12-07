@@ -3,9 +3,15 @@ package game.api;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 
+/*
+ * 
+ *  	TUTAJ SOBIE ODWZOROWUJEMY CALY SWIAT
+ * 
+ */
+
 public class GameWorld {
 
-	Player player;
+	Player player; 
 	
 	public GameWorld()
 	{
@@ -13,9 +19,10 @@ public class GameWorld {
 	}
 
     public void update(float delta) {
-        Gdx.app.log("GameWorld", "update");
         player.update(delta);
     }
+    
+    /////////////////////// SETTERY I GETTERY
 
 	public Player getPlayer() {
 		return player;
