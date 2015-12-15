@@ -1,9 +1,9 @@
 package game.api;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
@@ -19,6 +19,9 @@ public class GameRenderer {
 	GameWorld myWorld; //deklaracja œwiata, czyli miejsca gdzie s¹ te obiekty do rysowania
 	OrthographicCamera camera; //camera taka od boku
 	ShapeRenderer shapeRenderer; //potrzebne do rysowania 
+	SpriteBatch batch;
+	
+	
 	
 	public GameRenderer(GameWorld world)
 	{
@@ -27,6 +30,9 @@ public class GameRenderer {
 		camera.setToOrtho(true); //kamera obejmuje ca³y screen
 		shapeRenderer = new ShapeRenderer();
 		shapeRenderer.setProjectionMatrix(camera.combined); //w sumie nie wiem
+		batch = new SpriteBatch();
+		
+		
 		
 	}
 	
@@ -36,15 +42,16 @@ public class GameRenderer {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		
-		 shapeRenderer.begin(ShapeType.Filled); 
-	     shapeRenderer.setColor(87 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
-
-	     shapeRenderer.rect(myWorld.getPlayer().getVelocity().x, myWorld.getPlayer().getVelocity().y,
-	                myWorld.getPlayer().getWidth(), myWorld.getPlayer().getHeight()); //rysowany player
-
-	      
-	     shapeRenderer.end();
-
+	     	batch.begin();
+	     	
+	     	//RYSOWANIE PLATFORMY
+	     	batch.draw(myWorld.platform.texture, myWorld.platform.x, myWorld.platform.y, myWorld.platform.width, myWorld.platform.height);
+	     	
+	     	//RYSOWANIE GRACZA
+	     	myWorld.getPlayer().draw(batch);
+	     	
+	     	
+	        batch.end();
 	}
 	
 
