@@ -3,6 +3,9 @@ package game.api;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 
+import PartsOfWorld.Platform;
+import PartsOfWorld.Player;
+
 /*
  * 
  *  	TUTAJ SOBIE ODWZOROWUJEMY CALY SWIAT
@@ -16,7 +19,7 @@ public class GameWorld {
 	
 	public GameWorld()
 	{
-		 player = new Player(33, 500, 50, 50);
+		 player = new Player(33, 500);
 		 platform = new Platform();
 		 
 		 Gdx.input.setInputProcessor(player);
@@ -27,14 +30,16 @@ public class GameWorld {
        
         if (isOnPlatform(platform)) {
 			player.setCanJump(true);
-			player.setVelocityY(0);
+			player.setySpeed(0);
 			player.y = platform.y + platform.height;
 		}
+        
+        
        
 	}
     
     private boolean isOnPlatform(Platform p) {
-		return player.getVelocityY() <= 0 && player.overlaps(p)
+		return player.getySpeed() <= 0 && player.overlaps(p)
 				&& !(player.y <= p.y);
 	}
     

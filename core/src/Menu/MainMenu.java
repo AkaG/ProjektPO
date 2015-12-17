@@ -1,7 +1,7 @@
 /**
  * 
  */
-package game.api;
+package Menu;
 
 /**
  * @author Jakub

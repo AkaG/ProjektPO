@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
+import PartsOfWorld.Bullet;
+
 /*
  * 
  * 	KLASA ODPOWIEDZIALNA ZA RYSOWANIE OBIEKTOW
@@ -45,11 +47,16 @@ public class GameRenderer {
 	     	batch.begin();
 	     	
 	     	//RYSOWANIE PLATFORMY
-	     	batch.draw(myWorld.platform.texture, myWorld.platform.x, myWorld.platform.y, myWorld.platform.width, myWorld.platform.height);
+	     	batch.draw(myWorld.platform.getTexture(), myWorld.platform.x, myWorld.platform.y, myWorld.platform.width, myWorld.platform.height);
 	     	
 	     	//RYSOWANIE GRACZA
 	     	myWorld.getPlayer().draw(batch);
 	     	
+	     	//RYSOWANIE POCISKOW
+	     	for(Bullet b: myWorld.getPlayer().getGun().getBullets())
+	     	{
+	     		b.draw(batch);
+	     	}
 	     	
 	        batch.end();
 	}

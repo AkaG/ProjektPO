@@ -1,4 +1,4 @@
-package game.api;
+package PartsOfWorld;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+
+import interfaces.IPlayerControls;
 
 
 /*
@@ -15,17 +18,15 @@ import com.badlogic.gdx.math.Rectangle;
  * 
  */
 
-public class Player extends Rectangle implements InputProcessor{
+public class Player extends MovingObject implements InputProcessor, IPlayerControls{
+	
+	public static final int width = 50;
+	public static final int height = 50;
 
 	private boolean canJump;
-	private float velocityX; //predkosc w plaszczyznie x
-	private float velocityY; // jak ujemne to leci w góre, a jak dodatnie to œci¹ga go w dó³
-	
-	private float gravity; //
-	
-	////////////////// POTRZEBNE DO ANIMACJI
-	public enum Direction {RUN_LEFT, RUN_RIGHT, STAY_LEFT, STAY_RIGHT}; //nie dodalem jumpa, bo wtedy nie mozna
-	Direction dir;														//by bylo skakac po skosie
+	private float gravity;
+	public enum Direction {RUN_LEFT, RUN_RIGHT, STAY_LEFT, STAY_RIGHT}; //nie dodalem jumpa, bo wtedy nie mozna //by bylo skakac po skosie
+	Direction dir;														
 	
 	private TextureAtlas textureAtlas;
     private Animation GoLeftAnimation;
@@ -33,21 +34,21 @@ public class Player extends Rectangle implements InputProcessor{
     private Animation StayRightAnimation;
     private Animation StayLeftAnimation;
     private Animation JumpAnimation;
-    
-    public float elapsedTime = 0; //to jest potrzebne do animacji
-   
-    /////////////////////////////////
+    private float elapsedTime = 0;
 		
-    public Player(float x, float y, int width, int height) {
-        this.width = width;
-        this.height = height;
+    private Gun gun;
+    
+    
+    
+	public Player(float x, float y) {
+		
         this.x = Gdx.graphics.getWidth()/2 - this.width/2;
         this.y = 0;
         
-        canJump = true;
-        velocityX = 5;
-        velocityY = 0;
-        gravity = -1500; //takie wartoœci bo jest mno¿one przez delte(¿eby na ka¿dym kompie dzia³alo tak samo)
+        this.canJump = true;
+        this.xSpeed = 300;
+        this.ySpeed = 0;
+        this.gravity = -1500; //takie wartoœci bo jest mno¿one przez delte(¿eby na ka¿dym kompie dzia³alo tak samo)
         				//ale nie wiem jak to zrobiæ lepiej 
         
         textureAtlas = new TextureAtlas(Gdx.files.internal("contra.atlas"));
@@ -71,7 +72,9 @@ public class Player extends Rectangle implements InputProcessor{
         StayLeftAnimation = new Animation(0.1f,(textureAtlas.findRegions("4")));
         StayRightAnimation = new Animation(0.1f,(textureAtlas.findRegions("7")));
         
-        dir = Direction.STAY_LEFT;
+        this.dir = Direction.STAY_LEFT;
+        
+        this.gun = new Gun(this);
         
     }
 	
@@ -80,38 +83,42 @@ public class Player extends Rectangle implements InputProcessor{
     	movement(delta);
     	elapsedTime += delta;
     	
+    	//POCISKI
+    	for(Bullet b: gun.getBullets())
+    	{
+    		b.move();
+    	}
+    	
     }
     
    //w movement jest zrobiona grawitacja(sciaga playera w dol) i poruszanie w lewo/prawo  
    
     public void movement(float delta) {
     	
-    	y += velocityY * delta; //œci¹ga go w dó³
+    	y += ySpeed * delta; //œci¹ga go w dó³
     	
     	if(y > 0){ //jezeli jest na ekranie
-    		velocityY += gravity * delta; //dodajemy grawitacje zeby zwiekszyæ prêdkoœæ spadania
+    		ySpeed += gravity * delta; //dodajemy grawitacje zeby zwiekszyæ prêdkoœæ spadania
     	}
     	else{
     		y = 0; //zeby nie spadl ponizej ekranu
-    		velocityY = 0;
+    		ySpeed = 0;
     		canJump = true;
     	}
     	
-    	if(dir == Direction.RUN_LEFT) x -= velocityX;
-    	else if(dir == Direction.RUN_RIGHT) x+=velocityX;
+    	if(dir == Direction.RUN_LEFT) moveRight();
+    	else if(dir == Direction.RUN_RIGHT)  moveLeft();
     	
     }
     
-    public void jump()
-    {
-    	if(canJump && velocityY >= -100)
-    	velocityY += 800; // im wieksza wartosc tym wyzej skoczy
+    public void jump(){
+    	if(canJump && ySpeed >= -100)
+    	ySpeed += 800; // im wieksza wartosc tym wyzej skoczy
     	canJump = false;
     }
     
-    //w zaleznosci od tego w jakim stanie to odpowiednia animacja
-    public void draw(SpriteBatch batch)
-    {
+  
+    public void draw(SpriteBatch batch){
     	switch(dir)
      	{
      	case RUN_RIGHT:
@@ -126,9 +133,34 @@ public class Player extends Rectangle implements InputProcessor{
      	case STAY_RIGHT: 
      		batch.draw(StayRightAnimation.getKeyFrame(elapsedTime, true), x, y);
      		break;
-     		
      	}
     }
+    
+    
+    @Override
+	public void moveLeft() {
+		// TODO Auto-generated method stub
+    	x += xSpeed * Gdx.graphics.getDeltaTime();
+    	
+	}
+
+	@Override
+	public void moveRight() {
+		// TODO Auto-generated method stub
+		x -= xSpeed * Gdx.graphics.getDeltaTime();
+	}
+
+	@Override
+	public void shootAtAngle() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void shootAtPosition(Vector2 position) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
 	public boolean keyDown(int keycode) {
@@ -139,8 +171,13 @@ public class Player extends Rectangle implements InputProcessor{
 		else if(keycode == Input.Keys.RIGHT){
 			dir = Direction.RUN_RIGHT;
 		}
+		
 		if(keycode == Input.Keys.UP){
 			jump();
+		}
+		
+		if(keycode == Input.Keys.SPACE){
+			gun.shoot();
 		}
 		return false;
 	}
@@ -194,34 +231,39 @@ public class Player extends Rectangle implements InputProcessor{
     
     
     
-    ////////////////////////////////////// 	GETTERY I SETTERY
+    
+	
+
+//////////////////////////////////////GETTERY I SETTERY
 	
 	
-	public boolean isCanJump() {
-		return canJump;
+	public Direction getDir() {
+		
+		return dir;
 	}
 
-	public void setCanJump(boolean canJump) {
-		this.canJump = canJump;
+	public Gun getGun() {
+		return gun;
 	}
 
-	public float getVelocityX() {
-		return velocityX;
+	public void setGun(Gun gun) {
+		this.gun = gun;
 	}
 
-	public void setVelocityX(float velocityX) {
-		this.velocityX = velocityX;
-	}
-
-	public float getVelocityY() {
-		return velocityY;
-	}
-
-	public void setVelocityY(float velocityY) {
-		this.velocityY = velocityY;
+	public void setDir(Direction dir) {
+		this.dir = dir;
 	}
 
 	
+public boolean isCanJump() {
+return canJump;
+}
+
+public void setCanJump(boolean canJump) {
+this.canJump = canJump;
+}
+
+
 
 	
 }
