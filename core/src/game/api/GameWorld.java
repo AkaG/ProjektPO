@@ -70,7 +70,7 @@ public class GameWorld {
 
 	public Player getPlayer(int playerNr) {
 		
-		Player tmp = new Player(1, 1);
+		Player tmp = null;
 		
 		switch (playerNr) {
 		case 1:
