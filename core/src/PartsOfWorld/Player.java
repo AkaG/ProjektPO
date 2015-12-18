@@ -111,7 +111,7 @@ public class Player extends MovingObject implements InputProcessor, IPlayerContr
     	
     }
     
-    public void jump(){
+    private void jump(){
     	if(canJump && ySpeed >= -100)
     	ySpeed += 800; // im wieksza wartosc tym wyzej skoczy
     	canJump = false;
@@ -137,40 +137,56 @@ public class Player extends MovingObject implements InputProcessor, IPlayerContr
     }
     
     
-    @Override
-	public void moveLeft() {
+    private void moveLeft() {
 		// TODO Auto-generated method stub
     	x += xSpeed * Gdx.graphics.getDeltaTime();
     	
 	}
 
-	@Override
-	public void moveRight() {
+	private void moveRight() {
 		// TODO Auto-generated method stub
 		x -= xSpeed * Gdx.graphics.getDeltaTime();
 	}
 
 	@Override
-	public void shoot() {
+	public void Pshoot() {
 		// TODO Auto-generated method stub
-		
+		gun.shoot();
 	}
+	
+	@Override
+	public void Pjump() {
+		jump();
+	}
+	
+	@Override
+	public void PmoveLeft() {
+		// TODO Auto-generated method stub
+		dir = Direction.RUN_LEFT;
+	}
+	
+	@Override
+	public void PmoveRight() {
+		// TODO Auto-generated method stub
+		dir = Direction.RUN_RIGHT;
+	}
+	
 	@Override
 	public boolean keyDown(int keycode) {
 		// TODO Auto-generated method stub
 		if(keycode == Input.Keys.LEFT){
-			dir = Direction.RUN_LEFT;
+			PmoveLeft();
 		}
 		else if(keycode == Input.Keys.RIGHT){
-			dir = Direction.RUN_RIGHT;
+			PmoveRight();
 		}
 		
 		if(keycode == Input.Keys.UP){
-			jump();
+			Pjump();
 		}
 		
 		if(keycode == Input.Keys.SPACE){
-			gun.shoot();
+			Pshoot();
 		}
 		return false;
 	}

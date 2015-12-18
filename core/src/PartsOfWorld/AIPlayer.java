@@ -13,7 +13,12 @@ public abstract class AIPlayer extends Player implements IAIControl {
 	}
 	
 	public boolean AIjump() {
-		super.jump();
+		super.keyDown(Input.Keys.UP);
+		return false;
+	}
+	
+	public boolean AIStopJump(){
+		super.keyUp(Input.Keys.UP);
 		return false;
 	}
 
@@ -34,7 +39,12 @@ public abstract class AIPlayer extends Player implements IAIControl {
 	}
 	
 	public boolean AIshoot() {
-		super.shoot();
+		super.keyDown(Input.Keys.SPACE);
+		return false;
+	}
+	
+	public boolean AIStopShoot(){
+		super.keyUp(Input.Keys.SPACE);
 		return false;
 	}
 
@@ -43,6 +53,6 @@ public abstract class AIPlayer extends Player implements IAIControl {
 
 	}
 	
-	public abstract void AIUpdate(); /* tu sobie kazdy napisze AI */  
+	public abstract void AIUpdate(float delta); /* tu sobie kazdy napisze AI */  
 
 }

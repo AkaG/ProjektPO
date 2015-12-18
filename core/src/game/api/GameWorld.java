@@ -3,6 +3,7 @@ package game.api;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 
+import PartsOfWorld.KubaAI;
 import PartsOfWorld.Platform;
 import PartsOfWorld.Player;
 
@@ -16,17 +17,19 @@ public class GameWorld {
 
 	Player player; 
 	public	Platform platform;
+	KubaAI ai;
 	
 	public GameWorld()
 	{
 		 player = new Player(33, 500);
 		 platform = new Platform();
-		 
+		 ai = new KubaAI(40, 500);
 		 Gdx.input.setInputProcessor(player);
 	}
 
     public void update(float delta) {
         player.update(delta);
+        ai.AIUpdate(delta);
        
         if (isOnPlatform(platform)) {
 			player.setCanJump(true);
@@ -47,6 +50,10 @@ public class GameWorld {
 
 	public Player getPlayer() {
 		return player;
+	}
+	
+	public Player getAI() {
+		return ai;
 	}
 
 	public void setPlayer(Player player) {

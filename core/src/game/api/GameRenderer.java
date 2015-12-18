@@ -51,6 +51,7 @@ public class GameRenderer {
 	     	
 	     	//RYSOWANIE GRACZA
 	     	myWorld.getPlayer().draw(batch);
+	     	myWorld.getAI().draw(batch);
 	     	
 	     	//RYSOWANIE POCISKOW
 	     	for(Bullet b: myWorld.getPlayer().getGun().getBullets())
