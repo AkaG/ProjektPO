@@ -18,7 +18,7 @@ import interfaces.IPlayerControls;
  * 
  */
 
-public class Player extends MovingObject implements InputProcessor, IPlayerControls{
+public class Player extends MovingObject implements IPlayerControls{
 	
 	public static final int width = 50;
 	public static final int height = 50;
@@ -26,7 +26,7 @@ public class Player extends MovingObject implements InputProcessor, IPlayerContr
 	private boolean canJump;
 	private float gravity;
 	public enum Direction {RUN_LEFT, RUN_RIGHT, STAY_LEFT, STAY_RIGHT}; //nie dodalem jumpa, bo wtedy nie mozna //by bylo skakac po skosie
-	Direction dir;														
+	protected Direction dir;														
 	
 	private TextureAtlas textureAtlas;
     private Animation GoLeftAnimation;
@@ -171,8 +171,7 @@ public class Player extends MovingObject implements InputProcessor, IPlayerContr
 		dir = Direction.RUN_RIGHT;
 	}
 	
-	@Override
-	public boolean keyDown(int keycode) {
+	public void AIkeyDown(int keycode) {
 		// TODO Auto-generated method stub
 		if(keycode == Input.Keys.LEFT){
 			PmoveLeft();
@@ -188,66 +187,20 @@ public class Player extends MovingObject implements InputProcessor, IPlayerContr
 		if(keycode == Input.Keys.SPACE){
 			Pshoot();
 		}
-		return false;
 	}
 
-	@Override
-	public boolean keyUp(int keycode) {
+	public void AIkeyUp(int keycode) {
 		// TODO Auto-generated method stub
 		if(dir != Direction.RUN_RIGHT && keycode == Input.Keys.LEFT)
 			dir = Direction.STAY_LEFT;
 		if(dir != Direction.RUN_LEFT && keycode == Input.Keys.RIGHT)
 			dir = Direction.STAY_RIGHT;
-		
-		return false;
-	}
-
-	@Override
-	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-    
-    
-    
-    
-	
+	}  
 
 //////////////////////////////////////GETTERY I SETTERY
 	
 	
 	public Direction getDir() {
-		
 		return dir;
 	}
 

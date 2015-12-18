@@ -11,6 +11,6 @@ public final class KubaAI extends AIPlayer {
 	public void AIUpdate(float delta) { // przykladowe uzycie funkcji, nie zapomniec o ai przed funkcja
 		// TODO Auto-generated method stub
 		update(delta);
-		AImoveLeft();
+		AIjump();
 	}
 }

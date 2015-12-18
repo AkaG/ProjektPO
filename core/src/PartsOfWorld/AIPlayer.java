@@ -2,6 +2,7 @@ package PartsOfWorld;
 
 import com.badlogic.gdx.Input;
 
+import PartsOfWorld.Player.Direction;
 import interfaces.IAIControl;
 
 public abstract class AIPlayer extends Player implements IAIControl {
@@ -13,38 +14,30 @@ public abstract class AIPlayer extends Player implements IAIControl {
 	}
 	
 	public boolean AIjump() {
-		super.keyDown(Input.Keys.UP);
-		return false;
-	}
-	
-	public boolean AIStopJump(){
-		super.keyUp(Input.Keys.UP);
+		super.Pjump();;
 		return false;
 	}
 
 	public boolean AImoveLeft() {
-		super.keyDown(Input.Keys.LEFT);
+		super.PmoveLeft();
 		return false;
 	}
 
 	public boolean AImoveRight() {
-		super.keyDown(Input.Keys.RIGHT);
+		super.PmoveRight();
 		return false;
 	}
 	
 	public boolean AIStay(){
-		super.keyUp(Input.Keys.LEFT);
-		super.keyUp(Input.Keys.RIGHT);
+		if(dir == Direction.RUN_LEFT)
+			dir = Direction.STAY_LEFT;
+		if(dir == Direction.RUN_RIGHT)
+			dir = Direction.STAY_RIGHT;
 		return false;
 	}
 	
 	public boolean AIshoot() {
-		super.keyDown(Input.Keys.SPACE);
-		return false;
-	}
-	
-	public boolean AIStopShoot(){
-		super.keyUp(Input.Keys.SPACE);
+		super.Pshoot();
 		return false;
 	}
 

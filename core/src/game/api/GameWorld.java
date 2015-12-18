@@ -3,6 +3,7 @@ package game.api;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 
+import PartsOfWorld.HumanPlayer;
 import PartsOfWorld.KubaAI;
 import PartsOfWorld.Platform;
 import PartsOfWorld.Player;
@@ -15,13 +16,13 @@ import PartsOfWorld.Player;
 
 public class GameWorld {
 
-	Player player; 
+	HumanPlayer player; 
 	public	Platform platform;
 	KubaAI ai;
 	
 	public GameWorld()
 	{
-		 player = new Player(33, 500);
+		 player = new HumanPlayer(33, 500);
 		 platform = new Platform();
 		 ai = new KubaAI(40, 500);
 		 Gdx.input.setInputProcessor(player);
@@ -56,7 +57,7 @@ public class GameWorld {
 		return ai;
 	}
 
-	public void setPlayer(Player player) {
+	public void setPlayer(HumanPlayer player) {
 		this.player = player;
 	}
 }
