@@ -1,10 +1,14 @@
 package PartsOfWorld;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+
 public final class KubaAI extends AIPlayer {
 
 	public KubaAI(float x, float y) { // konstruktor musi byc
 		super(x, y);
-		// TODO Auto-generated constructor stub
+		// TODO Auto-generated constructor stu
 	}
 
 	@Override
