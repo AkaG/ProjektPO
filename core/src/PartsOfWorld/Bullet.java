@@ -7,19 +7,22 @@ import com.sun.media.jfxmedia.events.PlayerStateEvent.PlayerState;
 
 public class Bullet extends MovingObject{
 	
-	final int height = 5;
-	final int width = 5;
+	//final int height = 5;
+	//final int width = 5;
 	
 	Texture texture;
 	
 	enum Direction {LEFT,RIGHT};
 	Direction dir;
-	
+
+
 	Bullet(float _x, float _y, Player player)
 	{
 		texture = new Texture("bullet.png");
 		this.x = _x;
-		this.y = _y;
+		this.y = _y + 25;
+		this.width = 5;
+		this.height = 5;
 		
 		Player.Direction pDirection = player.getDir();
 		
@@ -40,6 +43,6 @@ public class Bullet extends MovingObject{
 
 	public void draw(SpriteBatch batch)
 	{
-		batch.draw(texture,this.x,this.y + Player.height/2,this.width,this.height);
+		batch.draw(texture,this.x,this.y,this.width,this.height);
 	}
 }

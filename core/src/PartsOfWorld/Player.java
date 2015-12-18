@@ -1,13 +1,13 @@
 package PartsOfWorld;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 
 import interfaces.IPlayerControls;
 
@@ -20,9 +20,7 @@ import interfaces.IPlayerControls;
 
 public class Player extends MovingObject implements IPlayerControls{
 	
-	public static final int width = 50;
-	public static final int height = 50;
-
+	
 	private boolean canJump;
 	private float gravity;
 	public enum Direction {RUN_LEFT, RUN_RIGHT, STAY_LEFT, STAY_RIGHT}; //nie dodalem jumpa, bo wtedy nie mozna //by bylo skakac po skosie
@@ -34,14 +32,17 @@ public class Player extends MovingObject implements IPlayerControls{
 	protected Animation JumpAnimation;
 	protected float elapsedTime = 0;
 		
-    private Gun gun;
+    protected Gun gun;
     
-    
+    protected Texture healthTexture;
+    protected Rectangle healthPoints;
     
 	public Player(float x, float y) {
 		
         this.x = x;
         this.y = y;
+        this.width = 50;
+        this.height = 50;
         
         this.canJump = true;
         this.xSpeed = 300;
@@ -60,6 +61,9 @@ public class Player extends MovingObject implements IPlayerControls{
         this.dir = Direction.STAY_LEFT;
         
         this.gun = new Gun(this);
+        
+        healthTexture = new Texture("hp.png");
+        healthPoints = new Rectangle(this.getX(),this.getY(),width,20);
         
     }
 	
@@ -101,7 +105,7 @@ public class Player extends MovingObject implements IPlayerControls{
     	ySpeed += 800; // im wieksza wartosc tym wyzej skoczy
     	canJump = false;
     }
-    
+    int a = 50;
   
     public void draw(SpriteBatch batch){
     	if (canJump) { // jak moze skacze to znaczy, ze nie jest w powietrzu,
@@ -127,10 +131,15 @@ public class Player extends MovingObject implements IPlayerControls{
 			} else if (dir == Direction.STAY_LEFT || dir == Direction.RUN_LEFT)
 				batch.draw(JumpAnimation.getKeyFrame(elapsedTime, false), x + width / 2, y, -width, height);
 		}
+    	
+    	///rysowanie HP
+    	batch.draw(healthTexture, this.getX() - width/2, this.getY() + this.height + 10, healthPoints.width , 5);
     }
     
     
-    private void moveLeft() {
+   
+
+	private void moveLeft() {
 		// TODO Auto-generated method stub
     	x += xSpeed * Gdx.graphics.getDeltaTime();
     	
@@ -190,6 +199,14 @@ public class Player extends MovingObject implements IPlayerControls{
 
 	public void setCanJump(boolean canJump) {
 	this.canJump = canJump;
+	}
+	
+	public Rectangle getHealthPoints() {
+			return healthPoints;
+	}
+
+	public void takeDamage(int damage){
+		this.healthPoints.width -= damage;
 	}
 	
 }
