@@ -36,9 +36,9 @@ public final class HumanPlayer2 extends Player implements InputProcessor {
 	@Override
 	public boolean keyUp(int keycode) {
 		
-		if(dir != Direction.RUN_RIGHT && keycode == Input.Keys.LEFT)
+		if(dir != Direction.RUN_RIGHT && keycode == Input.Keys.A)
 			dir = Direction.STAY_LEFT;
-		if(dir != Direction.RUN_LEFT && keycode == Input.Keys.RIGHT)
+		if(dir != Direction.RUN_LEFT && keycode == Input.Keys.D)
 			dir = Direction.STAY_RIGHT;
 		
 		return false;

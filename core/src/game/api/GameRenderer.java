@@ -50,11 +50,17 @@ public class GameRenderer {
 	     	batch.draw(myWorld.platform.getTexture(), myWorld.platform.x, myWorld.platform.y, myWorld.platform.width, myWorld.platform.height);
 	     	
 	     	//RYSOWANIE GRACZA
-	     	myWorld.getPlayer().draw(batch);
+	     	myWorld.getPlayer(1).draw(batch);
+	     	myWorld.getPlayer(2).draw(batch);
 	     	myWorld.getAI().draw(batch);
 	     	
 	     	//RYSOWANIE POCISKOW
-	     	for(Bullet b: myWorld.getPlayer().getGun().getBullets())
+	     	for(Bullet b: myWorld.getPlayer(1).getGun().getBullets())
+	     	{
+	     		b.draw(batch);
+	     	}
+	     	
+	     	for(Bullet b: myWorld.getPlayer(2).getGun().getBullets())
 	     	{
 	     		b.draw(batch);
 	     	}

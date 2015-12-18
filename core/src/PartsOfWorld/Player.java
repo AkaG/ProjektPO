@@ -40,8 +40,8 @@ public class Player extends MovingObject implements IPlayerControls{
     
 	public Player(float x, float y) {
 		
-        this.x = Gdx.graphics.getWidth()/2 - this.width/2;
-        this.y = 0;
+        this.x = x;
+        this.y = y;
         
         this.canJump = true;
         this.xSpeed = 300;
