@@ -28,13 +28,11 @@ public class Player extends MovingObject implements IPlayerControls{
 	public enum Direction {RUN_LEFT, RUN_RIGHT, STAY_LEFT, STAY_RIGHT}; //nie dodalem jumpa, bo wtedy nie mozna //by bylo skakac po skosie
 	protected Direction dir;														
 	
-	private TextureAtlas textureAtlas;
-    private Animation GoLeftAnimation;
-    private Animation GoRightAnimation;
-    private Animation StayRightAnimation;
-    private Animation StayLeftAnimation;
-    private Animation JumpAnimation;
-    private float elapsedTime = 0;
+	protected TextureAtlas textureAtlas;
+	protected Animation GoAnimation;
+	protected Animation StayAnimation;
+	protected Animation JumpAnimation;
+	protected float elapsedTime = 0;
 		
     private Gun gun;
     
@@ -51,26 +49,13 @@ public class Player extends MovingObject implements IPlayerControls{
         this.gravity = -1500; //takie wartoœci bo jest mno¿one przez delte(¿eby na ka¿dym kompie dzia³alo tak samo)
         				//ale nie wiem jak to zrobiæ lepiej 
         
-        textureAtlas = new TextureAtlas(Gdx.files.internal("contra.atlas"));
-        
-        GoLeftAnimation = new Animation(0.1f,
-                (textureAtlas.findRegion("1")),
-                (textureAtlas.findRegion("2")),
-                (textureAtlas.findRegion("3")),
-                (textureAtlas.findRegion("4")),
-                (textureAtlas.findRegion("5"))
-               );
-        
-        GoRightAnimation = new Animation(0.1f,
-                (textureAtlas.findRegion("6")),
-                (textureAtlas.findRegion("7")),
-                (textureAtlas.findRegion("8")),
-                (textureAtlas.findRegion("9")),
-                (textureAtlas.findRegion("10"))
-               );
-        
-        StayLeftAnimation = new Animation(0.1f,(textureAtlas.findRegions("4")));
-        StayRightAnimation = new Animation(0.1f,(textureAtlas.findRegions("7")));
+        textureAtlas = new TextureAtlas(Gdx.files.internal("sprite2.atlas"));
+		GoAnimation = new Animation(0.1f, (textureAtlas.findRegion("1")), (textureAtlas.findRegion("2")),
+				(textureAtlas.findRegion("3")));
+
+		StayAnimation = new Animation(0.1f, (textureAtlas.findRegions("4")));
+
+		JumpAnimation = new Animation(0.5f, (textureAtlas.findRegion("8")));
         
         this.dir = Direction.STAY_LEFT;
         
@@ -119,21 +104,29 @@ public class Player extends MovingObject implements IPlayerControls{
     
   
     public void draw(SpriteBatch batch){
-    	switch(dir)
-     	{
-     	case RUN_RIGHT:
-     		batch.draw(GoRightAnimation.getKeyFrame(elapsedTime, true), x, y);
-     		break;
-     	case RUN_LEFT:
-     		batch.draw(GoLeftAnimation.getKeyFrame(elapsedTime, true), x,y);
-     		break;
-     	case STAY_LEFT:
-     		batch.draw(StayLeftAnimation.getKeyFrame(elapsedTime, true), x, y);
-     		break;
-     	case STAY_RIGHT: 
-     		batch.draw(StayRightAnimation.getKeyFrame(elapsedTime, true), x, y);
-     		break;
-     	}
+    	if (canJump) { // jak moze skacze to znaczy, ze nie jest w powietrzu,
+			// narazie nie zmieniam
+    		
+	    	switch (dir) {
+				case RUN_RIGHT:
+					batch.draw(GoAnimation.getKeyFrame(elapsedTime, true), x - width / 2, y, width, height);
+					break;
+				case RUN_LEFT:
+					batch.draw(GoAnimation.getKeyFrame(elapsedTime, true), x + width / 2, y, -width, height);
+					break;
+				case STAY_LEFT:
+					batch.draw(StayAnimation.getKeyFrame(elapsedTime, true), x + width / 2, y, -width, height);
+					break;
+				case STAY_RIGHT:
+					batch.draw(StayAnimation.getKeyFrame(elapsedTime, true), x - width / 2, y, width, height);
+					break;
+	    	}
+    	} else {
+			if (dir == Direction.STAY_RIGHT || dir == Direction.RUN_RIGHT) {
+				batch.draw(JumpAnimation.getKeyFrame(elapsedTime, false), x - width / 2, y, width, height);
+			} else if (dir == Direction.STAY_LEFT || dir == Direction.RUN_LEFT)
+				batch.draw(JumpAnimation.getKeyFrame(elapsedTime, false), x + width / 2, y, -width, height);
+		}
     }
     
     
@@ -171,32 +164,6 @@ public class Player extends MovingObject implements IPlayerControls{
 		dir = Direction.RUN_RIGHT;
 	}
 	
-	public void AIkeyDown(int keycode) {
-		// TODO Auto-generated method stub
-		if(keycode == Input.Keys.LEFT){
-			PmoveLeft();
-		}
-		else if(keycode == Input.Keys.RIGHT){
-			PmoveRight();
-		}
-		
-		if(keycode == Input.Keys.UP){
-			Pjump();
-		}
-		
-		if(keycode == Input.Keys.SPACE){
-			Pshoot();
-		}
-	}
-
-	public void AIkeyUp(int keycode) {
-		// TODO Auto-generated method stub
-		if(dir != Direction.RUN_RIGHT && keycode == Input.Keys.LEFT)
-			dir = Direction.STAY_LEFT;
-		if(dir != Direction.RUN_LEFT && keycode == Input.Keys.RIGHT)
-			dir = Direction.STAY_RIGHT;
-	}  
-
 //////////////////////////////////////GETTERY I SETTERY
 	
 	
