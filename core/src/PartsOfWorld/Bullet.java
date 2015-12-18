@@ -29,7 +29,7 @@ public class Bullet extends MovingObject{
 		if(pDirection == Player.Direction.RUN_RIGHT || pDirection == Player.Direction.STAY_RIGHT)
 			dir = Direction.RIGHT;
 
-	// 	dir = Direction.LEFT;
+	
 	}
 	
 	public void move()

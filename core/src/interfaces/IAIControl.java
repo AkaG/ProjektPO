@@ -1,9 +1,13 @@
 package interfaces;
 
+import PartsOfWorld.AIPlayer;
+
 public interface IAIControl {
 	
-	public boolean jump();
-	public boolean moveLeft();
-	public boolean moveRight();
-	public boolean shoot();
+	public boolean AIjump();
+	public boolean AImoveLeft();
+	public boolean AImoveRight();
+	public boolean AIshoot();
+	
+	public void AIgetEnemy(AIPlayer enemy);
 }

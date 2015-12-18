@@ -151,17 +151,10 @@ public class Player extends MovingObject implements InputProcessor, IPlayerContr
 	}
 
 	@Override
-	public void shootAtAngle() {
+	public void shoot() {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void shootAtPosition(Vector2 position) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@Override
 	public boolean keyDown(int keycode) {
 		// TODO Auto-generated method stub
@@ -255,16 +248,13 @@ public class Player extends MovingObject implements InputProcessor, IPlayerContr
 	}
 
 	
-public boolean isCanJump() {
-return canJump;
-}
+	public boolean isCanJump() {
+	return canJump;
+	}
 
-public void setCanJump(boolean canJump) {
-this.canJump = canJump;
-}
-
-
-
+	public void setCanJump(boolean canJump) {
+	this.canJump = canJump;
+	}
 	
 }
 
