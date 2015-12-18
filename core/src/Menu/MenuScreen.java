@@ -35,6 +35,7 @@ public class MenuScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		
+		mainMenu.update();
 		menuRenderer.render();
 		
 		if(Gdx.input.isTouched()){

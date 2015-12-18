@@ -3,6 +3,7 @@ package PartsOfWorld;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.sun.media.jfxmedia.events.PlayerStateEvent.PlayerState;
 
 public class Bullet extends MovingObject{
 	
@@ -20,7 +21,15 @@ public class Bullet extends MovingObject{
 		this.x = _x;
 		this.y = _y;
 		
-		dir = Direction.LEFT;
+		Player.Direction pDirection = player.getDir();
+		
+		if(pDirection == Player.Direction.RUN_LEFT || pDirection == Player.Direction.STAY_LEFT)
+			dir = Direction.LEFT;
+		
+		if(pDirection == Player.Direction.RUN_RIGHT || pDirection == Player.Direction.STAY_RIGHT)
+			dir = Direction.RIGHT;
+
+	// 	dir = Direction.LEFT;
 	}
 	
 	public void move()
