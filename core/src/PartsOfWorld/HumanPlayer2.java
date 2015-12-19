@@ -1,15 +1,29 @@
 package PartsOfWorld;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import PartsOfWorld.Player.Direction;
 
 public final class HumanPlayer2 extends Player implements InputProcessor {
 
-	public HumanPlayer2(float x, float y) {
-		super(x, y);
+	public HumanPlayer2(float x, float y, Player.TypeOfGun gun) {
+		super(x, y, gun);
+		initTextures();
 		// TODO Auto-generated constructor stub
+	}
+	
+	public void initTextures() {
+		// TODO Auto-generated method stub
+		 //INICJALIZACJA TEXTUR I ANIMACJI
+        textureAtlas = new TextureAtlas(Gdx.files.internal("PlayerSprites/player2.atlas"));
+		GoAnimation = new Animation(0.1f, (textureAtlas.findRegion("1")), (textureAtlas.findRegion("2")),
+				(textureAtlas.findRegion("3")));
+		StayAnimation = new Animation(0.1f, (textureAtlas.findRegions("4")));
+		JumpAnimation = new Animation(0.5f, (textureAtlas.findRegion("8")));
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Texture;
 
 import PartsOfWorld.AdamAI;
 import PartsOfWorld.Bullet;
@@ -14,11 +15,6 @@ import PartsOfWorld.KubaAI;
 import PartsOfWorld.Platform;
 import PartsOfWorld.Player;
 
-/*
- * 
- *  	TUTAJ SOBIE ODWZOROWUJEMY CALY SWIAT
- * 
- */
 
 public class GameWorld {
 
@@ -29,15 +25,17 @@ public class GameWorld {
 	private AdamAI adamAI;
 
 	private ArrayList<Platform> platforms;
+	
+	Texture backgroundTexture;
 
 	InputMultiplexer multiplexer;
 
 	public GameWorld() {
 		// TWORZENIE GRACZY
-		player = new HumanPlayer(600, 100);
-		player2 = new HumanPlayer2(100, 100);
-		ai = new KubaAI(400, 100);
-		adamAI = new AdamAI(600,500);
+		player = new HumanPlayer(600, 100, Player.TypeOfGun.SHOTGUN);
+		player2 = new HumanPlayer2(100, 100, Player.TypeOfGun.SNIPER_RIFLE);
+		ai = new KubaAI(400, 100, Player.TypeOfGun.PISTOL);
+		adamAI = new AdamAI(600,500, Player.TypeOfGun.PISTOL);
 		
 		// DODAWANIE GRACZY NA LISTE
 		players = new ArrayList<Player>();
@@ -48,9 +46,13 @@ public class GameWorld {
 		
 		// DODAWANIE PLATFORM
 		platforms = new ArrayList<Platform>();
-		platforms.add(new Platform(250, 150, 100, 20));
-		platforms.add(new Platform(450, 250, 50, 20));
-		platforms.add(new Platform(150, 350, 400, 20));
+		platforms.add(new Platform(0, -15, 800, 25));
+		platforms.add(new Platform(100, 100, 600, 20));
+		platforms.add(new Platform(550, 250, 200, 20));
+		platforms.add(new Platform(50, 250, 200, 20));
+		platforms.add(new Platform(225, 400, 350, 20));
+		
+		backgroundTexture = new Texture("background.png");
 
 		// DODAWANIE OBSLUGI KLAWIATURY
 		multiplexer = new InputMultiplexer();
@@ -81,6 +83,11 @@ public class GameWorld {
 			if (player.getHealthPoints().width < 0) {
 				pl.remove();
 			}
+			
+			
+			//AKTUALIZACJA CZASU PISTOLETOW
+				player.getGun().update(delta);
+			
 		}
 
 		
@@ -91,7 +98,7 @@ public class GameWorld {
 				Bullet bullet = b.next();
 				for (int j = 0; j < players.size(); j++) {
 					if (players.get(j).contains(bullet.getX(), bullet.getY()) && j != i) {
-						players.get(j).takeDamage(6);
+						players.get(j).takeDamage(players.get(i).getGun().getDamage());
 						b.remove();
 					}
 				}
@@ -137,5 +144,11 @@ public class GameWorld {
 	public ArrayList<Player> getPlayers() {
 		return players;
 	}
+	
+
+	public Texture getBackgroundTexture() {
+		return backgroundTexture;
+	}
+
 
 }

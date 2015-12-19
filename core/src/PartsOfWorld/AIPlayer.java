@@ -9,8 +9,8 @@ public abstract class AIPlayer extends Player implements IAIControl {
 
 	AIPlayer enemy;
 	
-	public AIPlayer(float x, float y) {
-		super(x, y);
+	public AIPlayer(float x, float y, Player.TypeOfGun gun) {
+		super(x, y,gun);
 	}
 	
 	public boolean AIjump() {

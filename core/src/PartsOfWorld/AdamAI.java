@@ -3,17 +3,33 @@ package PartsOfWorld;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+
+import Guns.Pistol;
 
 public class AdamAI extends AIPlayer{
 
 	Random random;
 	private float timer = 0;
 	
-	public AdamAI(float x, float y) {
-		super(x, y);
+	public AdamAI(float x, float y, Player.TypeOfGun gun) {
+		super(x, y, gun);
+		initTextures();
 		
+		this.gun = new Pistol(this);
 		random = new Random();
 		// TODO Auto-generated constructor stub
+	}
+	
+	public void initTextures() {
+		// TODO Auto-generated method stub
+		 //INICJALIZACJA TEXTUR I ANIMACJI
+        textureAtlas = new TextureAtlas(Gdx.files.internal("PlayerSprites/player4.atlas"));
+		GoAnimation = new Animation(0.1f, (textureAtlas.findRegion("1")), (textureAtlas.findRegion("2")),
+				(textureAtlas.findRegion("3")));
+		StayAnimation = new Animation(0.1f, (textureAtlas.findRegions("4")));
+		JumpAnimation = new Animation(0.5f, (textureAtlas.findRegion("8")));
 	}
 	
 	public void update(float delta)

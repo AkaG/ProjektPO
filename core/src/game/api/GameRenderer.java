@@ -41,7 +41,7 @@ public class GameRenderer {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		batch.begin();
-
+		batch.draw(myWorld.getBackgroundTexture(),0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 		// RYSOWANIE PLATFORM
 		Iterator<Platform> itr = myWorld.getPlatforms().iterator();
 		while (itr.hasNext()) {
@@ -52,12 +52,17 @@ public class GameRenderer {
 		// RYSOWANIE GRACZY
 		for (Player p : myWorld.getPlayers()) {
 			p.draw(batch);
-
-		// RYSOWANIE POCISKOW
-		for (Bullet b : p.getGun().getBullets()) {
-			b.draw(batch);
-			}
+			
+			// RYSOWANIE BRONI
+			p.getGun().draw(batch);
+			
+			// RYSOWANIE POCISKOW
+			for (Bullet b : p.getGun().getBullets()) {
+				b.draw(batch);
+				}
 		}
+		
+		
 
 		batch.end();
 	}

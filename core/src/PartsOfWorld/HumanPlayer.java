@@ -3,8 +3,11 @@
  */
 package PartsOfWorld;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import PartsOfWorld.Player.Direction;
 
@@ -15,10 +18,23 @@ import PartsOfWorld.Player.Direction;
 
 public class HumanPlayer extends Player implements InputProcessor {
 
-	public HumanPlayer(float x, float y) {
-		super(x, y);
+	public HumanPlayer(float x, float y, Player.TypeOfGun gun) {
+		super(x, y, gun);
+		initTextures();
 		// TODO Auto-generated constructor stub
+		
 	}
+	
+	public void initTextures() {
+		// TODO Auto-generated method stub
+		 //INICJALIZACJA TEXTUR I ANIMACJI
+        textureAtlas = new TextureAtlas(Gdx.files.internal("PlayerSprites/player.atlas"));
+		GoAnimation = new Animation(0.1f, (textureAtlas.findRegion("1")), (textureAtlas.findRegion("2")),
+				(textureAtlas.findRegion("3")));
+		StayAnimation = new Animation(0.1f, (textureAtlas.findRegions("4")));
+		JumpAnimation = new Animation(0.5f, (textureAtlas.findRegion("8")));
+	}
+	
 
 	@Override
 	public boolean keyDown(int keycode) {
@@ -85,5 +101,6 @@ public class HumanPlayer extends Player implements InputProcessor {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 
 }

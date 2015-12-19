@@ -9,15 +9,20 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
+import Guns.AssaultRifle;
+import Guns.Gun;
+import Guns.Pistol;
+import Guns.Shotgun;
+import Guns.SniperRifle;
 import interfaces.IPlayerControls;
 import sun.util.resources.cldr.el.TimeZoneNames_el;
 
 
-public class Player extends MovingObject implements IPlayerControls{
+public abstract class Player extends MovingObject implements IPlayerControls{
 	
 	//PORUSZANIE
-	private boolean canJump;
-	private float gravity;
+	protected boolean canJump;
+	protected float gravity;
 	public enum Direction {RUN_LEFT, RUN_RIGHT, STAY_LEFT, STAY_RIGHT}; //nie dodalem jumpa, bo wtedy nie mozna //by bylo skakac po skosie
 	protected Direction dir;														
 	
@@ -29,14 +34,14 @@ public class Player extends MovingObject implements IPlayerControls{
 	protected float elapsedTime = 0;
 	
 	//BRON
+	public enum TypeOfGun {PISTOL,SNIPER_RIFLE,ASSAULT_RIFLE,SHOTGUN,CARBINE};
     protected Gun gun;
-    protected float timePerShoot = 0;
     
     //ZYCIE
     protected Texture healthTexture;
     protected Rectangle healthPoints;
     
-	public Player(float x, float y) {
+	public Player(float x, float y, TypeOfGun typeOfGun) {
 		
 		//WARTOSCI POCZATKOWE
         this.x = x;
@@ -49,22 +54,29 @@ public class Player extends MovingObject implements IPlayerControls{
         this.ySpeed = 0;
         this.gravity = -1500;
         
-        //INICJALIZACJA TEXTUR I ANIMACJI
-        textureAtlas = new TextureAtlas(Gdx.files.internal("sprite2.atlas"));
-		GoAnimation = new Animation(0.1f, (textureAtlas.findRegion("1")), (textureAtlas.findRegion("2")),
-				(textureAtlas.findRegion("3")));
-		StayAnimation = new Animation(0.1f, (textureAtlas.findRegions("4")));
-		JumpAnimation = new Animation(0.5f, (textureAtlas.findRegion("8")));
-        
 		//USTAWIANIE KIERUNKU POCZATKWEGO
         this.dir = Direction.STAY_LEFT;
         
         //BRON
-        this.gun = new Gun(this);
+        switch(typeOfGun)
+        {
+        case PISTOL:
+        	this.gun = new Pistol(this);
+        	break;
+        case SNIPER_RIFLE:
+        	this.gun = new SniperRifle(this);
+        	break;
+        case ASSAULT_RIFLE:
+        	this.gun = new AssaultRifle(this);
+        	break;
+        case SHOTGUN:
+        	this.gun = new Shotgun(this);
+        	break;
+        }
         
         //ZYCIE
         healthTexture = new Texture("hp.png");
-        healthPoints = new Rectangle(this.getX(),this.getY(),width,20);
+        healthPoints = new Rectangle(this.getX(),this.getY(),width*2,20); //100 punktów ¿ycia
         
     }
 	
@@ -73,19 +85,6 @@ public class Player extends MovingObject implements IPlayerControls{
     	//PORUSZANIE GRACZEM
     	movement(delta);
     	elapsedTime += delta;
-    	timePerShoot += delta;
-    	
-    	//PORUSZANIE POCISKAMI
-    	for(Bullet b: gun.getBullets())
-    	{
-    		b.move();
-    	}
-   
-    	if(timePerShoot >= 0.5)
-    	{
-    		this.gun.setCanShoot(true);
-    		timePerShoot -= 0.5;
-    	}
     	
     }
     
@@ -147,10 +146,10 @@ public class Player extends MovingObject implements IPlayerControls{
 		}
     	
     	///RYSOWANIE ZYCIA
-    	batch.draw(healthTexture, this.getX(), this.getY() + this.height + 10, healthPoints.width , 5);
+    	batch.draw(healthTexture, this.getX(), this.getY() + this.height + 10, healthPoints.width/2 , 5);
     }
     
-    
+    public abstract void initTextures();
    
 
 	private void moveLeft() {
@@ -167,12 +166,7 @@ public class Player extends MovingObject implements IPlayerControls{
 	@Override
 	public void Pshoot() {
 		// TODO Auto-generated method stub
-		if(getGun().isCanShoot())
-		{
 		gun.shoot();
-		getGun().setCanShoot(false);
-		}
-		
 	}
 	
 	@Override
