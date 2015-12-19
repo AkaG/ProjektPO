@@ -4,13 +4,6 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
 import game.api.MyGame;
 
-/*
- * 
- * 	TUTAJ WSZYSTKO SIE ZACZYNA
- * 
- * 
- */
-
 
 public class DesktopLauncher { 
 	public static void main (String[] arg) {

@@ -8,12 +8,13 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Gun extends Rectangle {
 
-	int bulletCount;
+	protected ArrayList<Bullet> bullets;
+	protected int bulletCount;
+	protected Player myPlayer;
+    protected boolean canShoot;
 	
-	ArrayList<Bullet> bullets;
 	
-	Player myPlayer;
-	
+
 	Gun(Player player)
 	{
 		myPlayer = player;
@@ -57,6 +58,14 @@ public class Gun extends Rectangle {
 	
 	public void shootAtPosition(){
 		
+	}
+	
+	public boolean isCanShoot() {
+		return canShoot;
+	}
+
+	public void setCanShoot(boolean canShoot) {
+		this.canShoot = canShoot;
 	}
 	
 }

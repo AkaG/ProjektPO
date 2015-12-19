@@ -6,6 +6,7 @@ import java.util.Iterator;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 
+import PartsOfWorld.AdamAI;
 import PartsOfWorld.Bullet;
 import PartsOfWorld.HumanPlayer;
 import PartsOfWorld.HumanPlayer2;
@@ -25,6 +26,7 @@ public class GameWorld {
 	private HumanPlayer player;
 	private HumanPlayer2 player2;
 	private KubaAI ai;
+	private AdamAI adamAI;
 
 	private ArrayList<Platform> platforms;
 
@@ -35,12 +37,14 @@ public class GameWorld {
 		player = new HumanPlayer(600, 100);
 		player2 = new HumanPlayer2(100, 100);
 		ai = new KubaAI(400, 100);
+		adamAI = new AdamAI(600,500);
 		
 		// DODAWANIE GRACZY NA LISTE
 		players = new ArrayList<Player>();
 		players.add(player);
 		players.add(player2);
 		players.add(ai);
+		players.add(adamAI);
 		
 		// DODAWANIE PLATFORM
 		platforms = new ArrayList<Platform>();

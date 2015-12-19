@@ -10,13 +10,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 import interfaces.IPlayerControls;
+import sun.util.resources.cldr.el.TimeZoneNames_el;
 
-
-/*
- * 
- * 	NAPISANA TYLKO JAKO PRZYKLAD (w sumie ja tego nie pisa³em)
- * 
- */
 
 public class Player extends MovingObject implements IPlayerControls{
 	
@@ -35,6 +30,7 @@ public class Player extends MovingObject implements IPlayerControls{
 	
 	//BRON
     protected Gun gun;
+    protected float timePerShoot = 0;
     
     //ZYCIE
     protected Texture healthTexture;
@@ -77,11 +73,18 @@ public class Player extends MovingObject implements IPlayerControls{
     	//PORUSZANIE GRACZEM
     	movement(delta);
     	elapsedTime += delta;
+    	timePerShoot += delta;
     	
     	//PORUSZANIE POCISKAMI
     	for(Bullet b: gun.getBullets())
     	{
     		b.move();
+    	}
+   
+    	if(timePerShoot >= 0.5)
+    	{
+    		this.gun.setCanShoot(true);
+    		timePerShoot -= 0.5;
     	}
     	
     }
@@ -105,6 +108,9 @@ public class Player extends MovingObject implements IPlayerControls{
     	if(dir == Direction.RUN_LEFT) moveRight();
     	else if(dir == Direction.RUN_RIGHT)  moveLeft();
     	
+    	//WYCHODZENIE POZA EKRAN
+    	if(this.x < 0) this.x = 0;
+    	else if(this.x > Gdx.graphics.getWidth() - this.width) this.x = Gdx.graphics.getWidth() - this.width;
     }
     
     private void jump(){
@@ -161,7 +167,12 @@ public class Player extends MovingObject implements IPlayerControls{
 	@Override
 	public void Pshoot() {
 		// TODO Auto-generated method stub
+		if(getGun().isCanShoot())
+		{
 		gun.shoot();
+		getGun().setCanShoot(false);
+		}
+		
 	}
 	
 	@Override
