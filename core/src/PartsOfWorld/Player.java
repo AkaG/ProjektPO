@@ -20,25 +20,29 @@ import interfaces.IPlayerControls;
 
 public class Player extends MovingObject implements IPlayerControls{
 	
-	
+	//PORUSZANIE
 	private boolean canJump;
 	private float gravity;
 	public enum Direction {RUN_LEFT, RUN_RIGHT, STAY_LEFT, STAY_RIGHT}; //nie dodalem jumpa, bo wtedy nie mozna //by bylo skakac po skosie
 	protected Direction dir;														
 	
+	//ANIMACJE
 	protected TextureAtlas textureAtlas;
 	protected Animation GoAnimation;
 	protected Animation StayAnimation;
 	protected Animation JumpAnimation;
 	protected float elapsedTime = 0;
-		
+	
+	//BRON
     protected Gun gun;
     
+    //ZYCIE
     protected Texture healthTexture;
     protected Rectangle healthPoints;
     
 	public Player(float x, float y) {
 		
+		//WARTOSCI POCZATKOWE
         this.x = x;
         this.y = y;
         this.width = 50;
@@ -47,21 +51,22 @@ public class Player extends MovingObject implements IPlayerControls{
         this.canJump = true;
         this.xSpeed = 300;
         this.ySpeed = 0;
-        this.gravity = -1500; //takie wartoœci bo jest mno¿one przez delte(¿eby na ka¿dym kompie dzia³alo tak samo)
-        				//ale nie wiem jak to zrobiæ lepiej 
+        this.gravity = -1500;
         
+        //INICJALIZACJA TEXTUR I ANIMACJI
         textureAtlas = new TextureAtlas(Gdx.files.internal("sprite2.atlas"));
 		GoAnimation = new Animation(0.1f, (textureAtlas.findRegion("1")), (textureAtlas.findRegion("2")),
 				(textureAtlas.findRegion("3")));
-
 		StayAnimation = new Animation(0.1f, (textureAtlas.findRegions("4")));
-
 		JumpAnimation = new Animation(0.5f, (textureAtlas.findRegion("8")));
         
+		//USTAWIANIE KIERUNKU POCZATKWEGO
         this.dir = Direction.STAY_LEFT;
         
+        //BRON
         this.gun = new Gun(this);
         
+        //ZYCIE
         healthTexture = new Texture("hp.png");
         healthPoints = new Rectangle(this.getX(),this.getY(),width,20);
         
@@ -69,10 +74,11 @@ public class Player extends MovingObject implements IPlayerControls{
 	
     public void update(float delta) {
     	
+    	//PORUSZANIE GRACZEM
     	movement(delta);
     	elapsedTime += delta;
     	
-    	//POCISKI
+    	//PORUSZANIE POCISKAMI
     	for(Bullet b: gun.getBullets())
     	{
     		b.move();
@@ -80,21 +86,22 @@ public class Player extends MovingObject implements IPlayerControls{
     	
     }
     
-   //w movement jest zrobiona grawitacja(sciaga playera w dol) i poruszanie w lewo/prawo  
    
     public void movement(float delta) {
     	
-    	y += ySpeed * delta; //œci¹ga go w dó³
+    	//GRAWITACJA
+    	y += ySpeed * delta;
     	
-    	if(y > 0){ //jezeli jest na ekranie
-    		ySpeed += gravity * delta; //dodajemy grawitacje zeby zwiekszyæ prêdkoœæ spadania
+    	if(y > 0){
+    		ySpeed += gravity * delta;
     	}
     	else{
-    		y = 0; //zeby nie spadl ponizej ekranu
+    		y = 0;
     		ySpeed = 0;
     		canJump = true;
     	}
     	
+    	//PORUSZANIE
     	if(dir == Direction.RUN_LEFT) moveRight();
     	else if(dir == Direction.RUN_RIGHT)  moveLeft();
     	
@@ -108,32 +115,33 @@ public class Player extends MovingObject implements IPlayerControls{
     int a = 50;
   
     public void draw(SpriteBatch batch){
-    	if (canJump) { // jak moze skacze to znaczy, ze nie jest w powietrzu,
-			// narazie nie zmieniam
-    		
-	    	switch (dir) {
+    	
+    	//ODPOWIEDNIA ANIMACJA W ZALEZNOSCI OD STANU PLAYERA
+    	if (canJump) { 
+    		switch (dir) {
 				case RUN_RIGHT:
-					batch.draw(GoAnimation.getKeyFrame(elapsedTime, true), x - width / 2, y, width, height);
+					batch.draw(GoAnimation.getKeyFrame(elapsedTime, true), x, y, width, height);
 					break;
 				case RUN_LEFT:
-					batch.draw(GoAnimation.getKeyFrame(elapsedTime, true), x + width / 2, y, -width, height);
+					batch.draw(GoAnimation.getKeyFrame(elapsedTime, true), x+width, y, -width, height);
 					break;
 				case STAY_LEFT:
-					batch.draw(StayAnimation.getKeyFrame(elapsedTime, true), x + width / 2, y, -width, height);
+					batch.draw(StayAnimation.getKeyFrame(elapsedTime, true), x+width, y, -width, height);
 					break;
 				case STAY_RIGHT:
-					batch.draw(StayAnimation.getKeyFrame(elapsedTime, true), x - width / 2, y, width, height);
+					batch.draw(StayAnimation.getKeyFrame(elapsedTime, true), x, y, width, height);
 					break;
 	    	}
+    	//ANIMACJE SKAKANIA
     	} else {
 			if (dir == Direction.STAY_RIGHT || dir == Direction.RUN_RIGHT) {
-				batch.draw(JumpAnimation.getKeyFrame(elapsedTime, false), x - width / 2, y, width, height);
+				batch.draw(JumpAnimation.getKeyFrame(elapsedTime, false), x, y, width, height);
 			} else if (dir == Direction.STAY_LEFT || dir == Direction.RUN_LEFT)
-				batch.draw(JumpAnimation.getKeyFrame(elapsedTime, false), x + width / 2, y, -width, height);
+				batch.draw(JumpAnimation.getKeyFrame(elapsedTime, false), x+width, y, -width, height);
 		}
     	
-    	///rysowanie HP
-    	batch.draw(healthTexture, this.getX() - width/2, this.getY() + this.height + 10, healthPoints.width , 5);
+    	///RYSOWANIE ZYCIA
+    	batch.draw(healthTexture, this.getX(), this.getY() + this.height + 10, healthPoints.width , 5);
     }
     
     

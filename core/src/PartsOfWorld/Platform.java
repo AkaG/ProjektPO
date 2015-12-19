@@ -7,13 +7,13 @@ public class Platform extends Rectangle {
 	
 	private Texture texture;
 	
-	public Platform()
+	public Platform(float _x, float _y, float _width, float _height)
 	{
 		texture = new Texture("platform.png");
-		width = 100;
-		height = 20;
-		x = 250;
-		y = 150;
+		this.width = _width;
+		height = _height;
+		x = _x;
+		y = _y;
 	}
 	
 	

@@ -7,9 +7,6 @@ import com.sun.media.jfxmedia.events.PlayerStateEvent.PlayerState;
 
 public class Bullet extends MovingObject{
 	
-	//final int height = 5;
-	//final int width = 5;
-	
 	Texture texture;
 	
 	enum Direction {LEFT,RIGHT};
@@ -24,6 +21,8 @@ public class Bullet extends MovingObject{
 		this.width = 5;
 		this.height = 5;
 		
+		
+		//USTAWIANIE KIERUNKU POCISKU
 		Player.Direction pDirection = player.getDir();
 		
 		if(pDirection == Player.Direction.RUN_LEFT || pDirection == Player.Direction.STAY_LEFT)
