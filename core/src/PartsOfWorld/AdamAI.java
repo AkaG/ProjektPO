@@ -32,12 +32,7 @@ public class AdamAI extends AIPlayer{
 		JumpAnimation = new Animation(0.5f, (textureAtlas.findRegion("8")));
 	}
 	
-	public void update(float delta)
-	{
-		super.update(delta);
-		
-		AIUpdate(delta);
-	}
+	
 
 	@Override
 	public void AIUpdate(float delta) {

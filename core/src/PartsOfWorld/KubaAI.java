@@ -23,16 +23,7 @@ public final class KubaAI extends AIPlayer {
 	}
 
 	
-	@Override
-	public void update(float delta)
-	{
-		super.update(delta);
-		AIjump();
-	}
-	
 	public void AIUpdate(float delta) { // przykladowe uzycie funkcji, nie zapomniec o ai przed funkcja
-		// TODO Auto-generated method stub
-		update(delta);
 		AIjump();
 	}
 	

@@ -46,6 +46,13 @@ public abstract class AIPlayer extends Player implements IAIControl {
 
 	}
 	
+	public void update(float delta)
+	{
+		super.update(delta);
+		
+		AIUpdate(delta);
+	}
+	
 	public abstract void AIUpdate(float delta); /* tu sobie kazdy napisze AI */  
 
 }
