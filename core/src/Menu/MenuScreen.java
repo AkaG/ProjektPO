@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import game.api.GameScreen;
 import game.api.MyGame;
@@ -14,15 +15,13 @@ public class MenuScreen implements Screen {
 	
 	private MyGame game;
 	private MainMenu mainMenu;
-	private MenuRenderer menuRenderer;
-	
-	OrthographicCamera camera;
-	
+
 	public MenuScreen(MyGame myGame){
 		game = myGame;
 		
 		mainMenu = new MainMenu();
-		menuRenderer = new MenuRenderer(mainMenu);
+		
+		Gdx.input.setInputProcessor(mainMenu.getStage());
 		
 	}
 	
@@ -34,9 +33,11 @@ public class MenuScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		mainMenu.update();
-		menuRenderer.render();
+		mainMenu.draw(delta);
 		
 		if(Gdx.input.isTouched()){
 			game.setScreen(new GameScreen());
