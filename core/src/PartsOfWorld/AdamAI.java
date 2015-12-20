@@ -16,6 +16,7 @@ public class AdamAI extends AIPlayer{
 	public AdamAI(float x, float y, Player.TypeOfGun gun) {
 		super(x, y, gun);
 		initTextures();
+		name = "CPU";
 		
 		this.gun = new Pistol(this);
 		random = new Random();

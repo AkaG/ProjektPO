@@ -14,6 +14,7 @@ import PartsOfWorld.HumanPlayer2;
 import PartsOfWorld.KubaAI;
 import PartsOfWorld.Platform;
 import PartsOfWorld.Player;
+import game.api.MyGame.GameMode;
 
 
 public class GameWorld {
@@ -29,20 +30,44 @@ public class GameWorld {
 	Texture backgroundTexture;
 
 	InputMultiplexer multiplexer;
+	
+	GameMode mode;
 
 	public GameWorld() {
-		// TWORZENIE GRACZY
-		player = new HumanPlayer(600, 100, Player.TypeOfGun.SHOTGUN);
-		player2 = new HumanPlayer2(100, 100, Player.TypeOfGun.SNIPER_RIFLE);
-		ai = new KubaAI(400, 100, Player.TypeOfGun.PISTOL);
-		adamAI = new AdamAI(600,500, Player.TypeOfGun.PISTOL);
 		
-		// DODAWANIE GRACZY NA LISTE
 		players = new ArrayList<Player>();
-		players.add(player);
-		players.add(player2);
-		players.add(ai);
-		players.add(adamAI);
+		multiplexer = new InputMultiplexer();
+		
+		// WYBÓR TRYBU GRY
+		mode = MyGame.mode;
+		switch (mode) {
+		case PLAYER_VS_PLAYER:
+			
+			// TWORZENIE GRACZY I DODAWANIE ICH NA LISTE
+			player = new HumanPlayer(600, 100, Player.TypeOfGun.SHOTGUN);
+			player2 = new HumanPlayer2(100, 100, Player.TypeOfGun.SNIPER_RIFLE);
+			players.add(player);
+			players.add(player2);
+			
+			// OBSLUGA KLAWIATURY
+			multiplexer.addProcessor(player);
+			multiplexer.addProcessor(player2);
+			break;
+			
+		case PLAYER_VS_CPU:
+			
+			// TWORZENIE GRACZY I DODAWANIE ICH NA LISTE
+			player = new HumanPlayer(100, 100, Player.TypeOfGun.SNIPER_RIFLE);
+			players.add(player);
+			players.add(new AdamAI(600, 500, Player.TypeOfGun.PISTOL));
+			
+			// OBSLUGA KLAWIATURY
+			multiplexer.addProcessor(player);
+			break;
+
+		}
+
+		Gdx.input.setInputProcessor(multiplexer);
 		
 		// DODAWANIE PLATFORM
 		platforms = new ArrayList<Platform>();
@@ -54,12 +79,6 @@ public class GameWorld {
 		
 		backgroundTexture = new Texture("background.png");
 
-		// DODAWANIE OBSLUGI KLAWIATURY
-		multiplexer = new InputMultiplexer();
-		multiplexer.addProcessor(player);
-		multiplexer.addProcessor(player2);
-
-		Gdx.input.setInputProcessor(multiplexer);
 	}
 
 	public void update(float delta) {

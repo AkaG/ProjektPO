@@ -3,10 +3,9 @@
  */
 package Menu;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+
+import game.api.MyGame;
 
 /**
  * @author Jakub
@@ -17,11 +16,11 @@ public class MainMenu {
 	private FirstMenu firstMenu;
 	private Stage stage;
 	
-	public MainMenu(){
+	public MainMenu(MyGame game){
 		// tworzenie sceny
 		stage = new Stage();
 		// tworzenie wstepnego menu
-		firstMenu = new FirstMenu(stage);
+		firstMenu = new FirstMenu(stage, game);
 	}
 	
 	public void update(){

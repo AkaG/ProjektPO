@@ -9,6 +9,7 @@ public final class KubaAI extends AIPlayer {
 	public KubaAI(float x, float y, Player.TypeOfGun gun) { // konstruktor musi byc
 		super(x, y, gun);
 		initTextures();
+		name = "Kuba";
 		// TODO Auto-generated constructor stu
 	}
 	

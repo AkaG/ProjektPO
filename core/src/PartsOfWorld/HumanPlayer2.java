@@ -13,6 +13,7 @@ public final class HumanPlayer2 extends Player implements InputProcessor {
 	public HumanPlayer2(float x, float y, Player.TypeOfGun gun) {
 		super(x, y, gun);
 		initTextures();
+		name = "Player2";
 		// TODO Auto-generated constructor stub
 	}
 	

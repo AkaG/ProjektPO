@@ -1,12 +1,11 @@
 package PartsOfWorld;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 import Guns.AssaultRifle;
@@ -15,7 +14,6 @@ import Guns.Pistol;
 import Guns.Shotgun;
 import Guns.SniperRifle;
 import interfaces.IPlayerControls;
-import sun.util.resources.cldr.el.TimeZoneNames_el;
 
 
 public abstract class Player extends MovingObject implements IPlayerControls{
@@ -41,6 +39,8 @@ public abstract class Player extends MovingObject implements IPlayerControls{
     protected Texture healthTexture;
     protected Rectangle healthPoints;
     
+    String name;
+    
 	public Player(float x, float y, TypeOfGun typeOfGun) {
 		
 		//WARTOSCI POCZATKOWE
@@ -53,6 +53,8 @@ public abstract class Player extends MovingObject implements IPlayerControls{
         this.xSpeed = 300;
         this.ySpeed = 0;
         this.gravity = -1500;
+        
+        this.name = new String();
         
 		//USTAWIANIE KIERUNKU POCZATKWEGO
         this.dir = Direction.STAY_LEFT;
@@ -79,8 +81,8 @@ public abstract class Player extends MovingObject implements IPlayerControls{
         healthPoints = new Rectangle(this.getX(),this.getY(),width*2,20); //100 punktów ¿ycia
         
     }
-	
-    public void update(float delta) {
+
+	public void update(float delta) {
     	
     	//PORUSZANIE GRACZEM
     	movement(delta);
@@ -222,5 +224,12 @@ public abstract class Player extends MovingObject implements IPlayerControls{
 		this.healthPoints.width -= damage;
 	}
 	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
 }
 

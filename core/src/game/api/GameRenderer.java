@@ -5,6 +5,7 @@ import java.util.Iterator;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -25,6 +26,7 @@ public class GameRenderer {
 	OrthographicCamera camera; // camera taka od boku
 	ShapeRenderer shapeRenderer; // potrzebne do rysowania
 	SpriteBatch batch;
+	BitmapFont font;
 
 	public GameRenderer(GameWorld world) {
 		myWorld = world;
@@ -33,7 +35,7 @@ public class GameRenderer {
 		shapeRenderer = new ShapeRenderer();
 		shapeRenderer.setProjectionMatrix(camera.combined); // w sumie nie wiem
 		batch = new SpriteBatch();
-
+		font = new BitmapFont();
 	}
 
 	public void render() {
@@ -60,7 +62,12 @@ public class GameRenderer {
 			for (Bullet b : p.getGun().getBullets()) {
 				b.draw(batch);
 				}
+			
+			//RYSOWANIE NAZW
+			font.draw(batch, p.getName(), p.getX(), p.getY()+p.getHeight()+40);
 		}
+		
+		
 		
 		
 

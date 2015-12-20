@@ -19,7 +19,7 @@ public class MenuScreen implements Screen {
 	public MenuScreen(MyGame myGame){
 		game = myGame;
 		
-		mainMenu = new MainMenu();
+		mainMenu = new MainMenu(myGame);
 		
 		Gdx.input.setInputProcessor(mainMenu.getStage());
 		
@@ -39,11 +39,6 @@ public class MenuScreen implements Screen {
 		mainMenu.update();
 		mainMenu.draw(delta);
 		
-		if(Gdx.input.isTouched()){
-			game.setScreen(new GameScreen());
-			
-			dispose();
-		}
 	}
 
 	@Override
