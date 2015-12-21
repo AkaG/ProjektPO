@@ -74,6 +74,9 @@ build/
 *.war
 *.ear
 
+# UML editable files
+*.ucls
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 >>>>>>> 1a101876c00ea76126189397abd73ac1f65ac1c5
