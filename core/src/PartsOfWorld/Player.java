@@ -1,5 +1,7 @@
 package PartsOfWorld;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -7,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
+import com.sun.javafx.geom.Vec2f;
+import com.sun.org.apache.xerces.internal.impl.dv.ValidatedInfo;
 
 import Guns.AssaultRifle;
 import Guns.Gun;
@@ -32,8 +36,9 @@ public abstract class Player extends MovingObject implements IPlayerControls{
 	protected float elapsedTime = 0;
 	
 	//BRON
-	public enum TypeOfGun {PISTOL,SNIPER_RIFLE,ASSAULT_RIFLE,SHOTGUN,CARBINE};
+	public enum TypeOfGun {PISTOL,SNIPER_RIFLE,ASSAULT_RIFLE,SHOTGUN};
     protected Gun gun;
+    protected TypeOfGun myGun;
     
     //ZYCIE
     protected Texture healthTexture;
@@ -60,6 +65,7 @@ public abstract class Player extends MovingObject implements IPlayerControls{
         this.dir = Direction.STAY_LEFT;
         
         //BRON
+        myGun = typeOfGun;
         switch(typeOfGun)
         {
         case PISTOL:
@@ -188,6 +194,10 @@ public abstract class Player extends MovingObject implements IPlayerControls{
 		dir = Direction.RUN_RIGHT;
 	}
 	
+	public void updateEnemyPosition(ArrayList<Vec2f> otherPos){
+		
+	}
+	
 //////////////////////////////////////GETTERY I SETTERY
 	
 	
@@ -202,6 +212,14 @@ public abstract class Player extends MovingObject implements IPlayerControls{
 	public void setGun(Gun gun) {
 		this.gun = gun;
 	}
+	
+	public void setGunType(TypeOfGun typeOfGun){
+		myGun = typeOfGun;
+	}
+	
+	public TypeOfGun getGunType(){
+		return myGun;
+	}
 
 	public void setDir(Direction dir) {
 		this.dir = dir;
@@ -209,15 +227,19 @@ public abstract class Player extends MovingObject implements IPlayerControls{
 
 	
 	public boolean isCanJump() {
-	return canJump;
+		return canJump;
 	}
 
 	public void setCanJump(boolean canJump) {
-	this.canJump = canJump;
+		this.canJump = canJump;
 	}
 	
 	public Rectangle getHealthPoints() {
 			return healthPoints;
+	}
+	
+	public void setHealthPoints(int hp){
+		healthPoints.width = hp;
 	}
 
 	public void takeDamage(int damage){
@@ -231,5 +253,6 @@ public abstract class Player extends MovingObject implements IPlayerControls{
 	public String getName() {
 		return this.name;
 	}
+	
 }
 

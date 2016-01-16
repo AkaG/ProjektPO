@@ -1,20 +1,33 @@
 package game.api;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Texture;
+import com.sun.javafx.geom.Vec2f;
 
+import Guns.AssaultRifle;
+import Guns.Pistol;
+import Guns.Shotgun;
+import Guns.SniperRifle;
 import PartsOfWorld.AdamAI;
 import PartsOfWorld.Bullet;
 import PartsOfWorld.HumanPlayer;
 import PartsOfWorld.HumanPlayer2;
 import PartsOfWorld.KubaAI;
+import PartsOfWorld.MarcinAI;
+import PartsOfWorld.MateuszAI;
+import PartsOfWorld.MikolajAI;
 import PartsOfWorld.Platform;
 import PartsOfWorld.Player;
+import PartsOfWorld.Player.TypeOfGun;
 import game.api.MyGame.GameMode;
+import sun.security.pkcs11.P11TlsKeyMaterialGenerator;
 
 
 public class GameWorld {
@@ -32,11 +45,17 @@ public class GameWorld {
 	InputMultiplexer multiplexer;
 	
 	GameMode mode;
+	
+	private boolean gameOver;
+	private String winnerName;
 
 	public GameWorld() {
 		
 		players = new ArrayList<Player>();
 		multiplexer = new InputMultiplexer();
+		
+		gameOver = false;
+		winnerName = "";
 		
 		// WYBÓR TRYBU GRY
 		mode = MyGame.mode;
@@ -44,8 +63,8 @@ public class GameWorld {
 		case PLAYER_VS_PLAYER:
 			
 			// TWORZENIE GRACZY I DODAWANIE ICH NA LISTE
-			player = new HumanPlayer(600, 100, Player.TypeOfGun.SHOTGUN);
-			player2 = new HumanPlayer2(100, 100, Player.TypeOfGun.SNIPER_RIFLE);
+			player = new HumanPlayer(600, 100, Player.TypeOfGun.PISTOL);
+			player2 = new HumanPlayer2(100, 100, Player.TypeOfGun.PISTOL);
 			players.add(player);
 			players.add(player2);
 			
@@ -57,12 +76,22 @@ public class GameWorld {
 		case PLAYER_VS_CPU:
 			
 			// TWORZENIE GRACZY I DODAWANIE ICH NA LISTE
-			player = new HumanPlayer(100, 100, Player.TypeOfGun.SNIPER_RIFLE);
+			player = new HumanPlayer(100, 100, Player.TypeOfGun.PISTOL);
 			players.add(player);
 			players.add(new AdamAI(600, 500, Player.TypeOfGun.PISTOL));
 			
 			// OBSLUGA KLAWIATURY
 			multiplexer.addProcessor(player);
+			break;
+			
+		case CPU_VS_CPU:
+			
+			// TWORZENIE GRACZY I DODAWANIE ICH NA LISTE
+			players.add(new AdamAI(600, 500, Player.TypeOfGun.PISTOL));
+			players.add(new KubaAI(400, 500, Player.TypeOfGun.PISTOL));
+			players.add(new MateuszAI(600, 200, Player.TypeOfGun.PISTOL));
+			players.add(new MarcinAI(150, 400, Player.TypeOfGun.PISTOL));
+			players.add(new MikolajAI(200, 200, Player.TypeOfGun.PISTOL));			
 			break;
 
 		}
@@ -82,13 +111,22 @@ public class GameWorld {
 	}
 
 	public void update(float delta) {
-
+		ArrayList<Vec2f> playersPosition;
+		playersPosition = new ArrayList<Vec2f>();
+		
 		Iterator<Player> pl = players.iterator();
+		while(pl.hasNext()){
+			Player player = pl.next();
+			playersPosition.add(new Vec2f(player.getX(),player.getY()));
+		}
+		
+		pl = players.iterator();
 		while (pl.hasNext()) {
 			Player player = pl.next();
 			
 			//AKTUALIZACJA PLAYEROW
 			player.update(delta);
+			player.updateEnemyPosition(playersPosition);
 			
 			//KOLIZJA Z PLATFORMAMI
 			for (Platform platform : platforms)
@@ -100,13 +138,42 @@ public class GameWorld {
 
 			// SPRAWDZANIE CZY ZOSTALO ZYCIE
 			if (player.getHealthPoints().width < 0) {
-				pl.remove();
+				// JESLI JESZCZE MA BRON DOSTAJE NASTEPNE ZYCIE
+					switch(player.getGunType()){
+					case PISTOL:
+						player.setHealthPoints(100);
+						player.setGun(new SniperRifle(player));
+						player.setGunType(TypeOfGun.SNIPER_RIFLE);
+						player.setPosition(400, 500);
+						break;
+					case SNIPER_RIFLE:
+						player.setHealthPoints(100);
+						player.setGun(new AssaultRifle(player));
+						player.setGunType(TypeOfGun.ASSAULT_RIFLE);
+						player.setPosition(400, 500);
+						break;
+					case ASSAULT_RIFLE:
+						player.setHealthPoints(100);
+						player.setGun(new Shotgun(player));
+						player.setGunType(TypeOfGun.SHOTGUN);
+						player.setPosition(400, 500);
+						break;
+					case SHOTGUN:
+						pl.remove();
+						break;
+				}
 			}
 			
 			
 			//AKTUALIZACJA CZASU PISTOLETOW
 				player.getGun().update(delta);
 			
+		}
+		
+		// JESLI ZOSTAL 1 GRACZ KONIEC GRY
+		if(players.size() == 1){
+			gameOver = true;
+			winnerName = players.get(0).getName();
 		}
 
 		
@@ -123,7 +190,6 @@ public class GameWorld {
 				}
 			}
 		}
-
 	}
 
 	public ArrayList<Platform> getPlatforms() {
@@ -168,6 +234,13 @@ public class GameWorld {
 	public Texture getBackgroundTexture() {
 		return backgroundTexture;
 	}
-
+	
+	public boolean getGameOver(){
+		return gameOver;
+	}
+	
+	public String getWinnerName(){
+		return winnerName;
+	}
 
 }

@@ -9,8 +9,9 @@ import game.api.MyGame.GameMode;
 
 public class MyGame extends Game {
 	
-	public enum GameMode {PLAYER_VS_PLAYER,PLAYER_VS_CPU}; 
+	public enum GameMode {PLAYER_VS_PLAYER,PLAYER_VS_CPU,CPU_VS_CPU}; 
 	public static GameMode mode;
+	public String winnerName;
 	
 	@Override
 	public void create() {

@@ -1,6 +1,9 @@
 package PartsOfWorld;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Input;
+import com.sun.javafx.geom.Vec2f;
 
 import PartsOfWorld.Player.Direction;
 import interfaces.IAIControl;
@@ -8,6 +11,7 @@ import interfaces.IAIControl;
 public abstract class AIPlayer extends Player implements IAIControl {
 
 	AIPlayer enemy;
+	ArrayList<Vec2f> enemyPosition;
 	
 	public AIPlayer(float x, float y, Player.TypeOfGun gun) {
 		super(x, y,gun);
@@ -51,6 +55,10 @@ public abstract class AIPlayer extends Player implements IAIControl {
 		super.update(delta);
 		
 		AIUpdate(delta);
+	}
+	
+	public void updateEnemyPosition(ArrayList<Vec2f> otherPos){
+		enemyPosition = otherPos;
 	}
 	
 	public abstract void AIUpdate(float delta); /* tu sobie kazdy napisze AI */  
