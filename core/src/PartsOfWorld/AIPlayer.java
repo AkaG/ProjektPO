@@ -15,6 +15,7 @@ public abstract class AIPlayer extends Player implements IAIControl {
 	
 	public AIPlayer(float x, float y, Player.TypeOfGun gun) {
 		super(x, y,gun);
+		enemyPosition = new ArrayList<Vec2f>();
 	}
 	
 	public boolean AIjump() {

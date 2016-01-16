@@ -33,8 +33,7 @@ public final class KubaAI extends AIPlayer {
 				tmp = enemy;
 				continue;
 			}
-			
-/*			else{
+			else{
 				if(enemy.x != x && enemy.y != y){
 					if(enemy.x < x){
 						if(x < tmp.x){
@@ -58,22 +57,19 @@ public final class KubaAI extends AIPlayer {
 						}
 					}
 				}
-			}*/
+			}
 		}
 		return tmp;
 	}
 	
 	public void AIUpdate(float delta) { 
-		Vec2f tmp = null;// = findNearestEnemy();
+		Vec2f tmp = findNearestEnemy();
 		if (tmp != null){
 			if(tmp.x < x)
 				AImoveLeft();
 			else
 				AImoveRight();
 		}
-/*		if(enemyPosition != null){
-			System.out.println(enemyPosition.get(0).x);
-		}*/
 	}
 	
 }
