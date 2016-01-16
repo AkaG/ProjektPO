@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 
+import Menu.MenuScreen;
+
 /*
  * 
  *  TU W ZASADZIE NARAZIE BEZ ZMIAN
@@ -15,9 +17,11 @@ public class GameScreen implements Screen{
 
 	private GameWorld world;
 	private GameRenderer renderer;
+	private MyGame myGame;
 	
-	public GameScreen()
+	public GameScreen(MyGame game)
 	{
+		myGame = game;
 		world = new GameWorld();
         renderer = new GameRenderer(world);
 	}
@@ -33,6 +37,10 @@ public class GameScreen implements Screen{
 	public void render(float delta) {
 		// TODO Auto-generated method stub
 		world.update(delta);
+		if(world.getGameOver() == true){
+			myGame.winnerName = world.getWinnerName();
+			myGame.setScreen(new MenuScreen(myGame));
+		}
 		renderer.render();
 		
 	}

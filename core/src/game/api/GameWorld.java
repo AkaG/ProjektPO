@@ -35,11 +35,17 @@ public class GameWorld {
 	InputMultiplexer multiplexer;
 	
 	GameMode mode;
+	
+	private boolean gameOver;
+	private String winnerName;
 
 	public GameWorld() {
 		
 		players = new ArrayList<Player>();
 		multiplexer = new InputMultiplexer();
+		
+		gameOver = false;
+		winnerName = "";
 		
 		// WYBÓR TRYBU GRY
 		mode = MyGame.mode;
@@ -121,6 +127,12 @@ public class GameWorld {
 				player.getGun().update(delta);
 			
 		}
+		
+		// JESLI ZOSTAL 1 GRACZ KONIEC GRY
+		if(players.size() == 1){
+			gameOver = true;
+			winnerName = players.get(0).getName();
+		}
 
 		
 		//KOLIZJA Z POCISKAMI
@@ -181,6 +193,13 @@ public class GameWorld {
 	public Texture getBackgroundTexture() {
 		return backgroundTexture;
 	}
-
+	
+	public boolean getGameOver(){
+		return gameOver;
+	}
+	
+	public String getWinnerName(){
+		return winnerName;
+	}
 
 }

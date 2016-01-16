@@ -3,8 +3,10 @@ package Menu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import game.api.GameScreen;
@@ -15,6 +17,7 @@ public class FirstMenu extends AbstractMenu {
 	
 	private TextButton startButton, startButton2, startButton3, buttonExit;
 	private MyGame myGame;
+	private TextField textField1;
 	
 	public FirstMenu(Stage stage, MyGame game) {
 		super();
@@ -30,7 +33,7 @@ public class FirstMenu extends AbstractMenu {
 				super.clicked(event, x, y);
 				
 				MyGame.mode = GameMode.PLAYER_VS_PLAYER;
-				myGame.setScreen(new GameScreen());
+				myGame.setScreen(new GameScreen(myGame));
 			}
 		});
 		
@@ -43,7 +46,7 @@ public class FirstMenu extends AbstractMenu {
 				super.clicked(event, x, y);
 				
 				MyGame.mode = GameMode.PLAYER_VS_CPU;
-				myGame.setScreen(new GameScreen());
+				myGame.setScreen(new GameScreen(myGame));
 			}
 		});
 		
@@ -56,7 +59,7 @@ public class FirstMenu extends AbstractMenu {
 				super.clicked(event, x, y);
 				
 				MyGame.mode = GameMode.CPU_VS_CPU;
-				myGame.setScreen(new GameScreen());
+				myGame.setScreen(new GameScreen(myGame));
 			}
 		});
 		
@@ -75,6 +78,9 @@ public class FirstMenu extends AbstractMenu {
 			
 		});
 		
+		textField1 = new TextField("Winner: " + myGame.winnerName, new Skin(Gdx.files.internal("uiskin.json")));
+		textField1.setSize(500, 200);
+		
 		//dodawanie obiektow do tabeli
 		table.add(startButton).width(200);
 		table.add().row();
@@ -83,6 +89,8 @@ public class FirstMenu extends AbstractMenu {
 		table.add(startButton3).width(200);
 		table.add().row();
 		table.add(buttonExit).width(200);
+		table.add().row();
+		table.add(textField1).width(200);
 		
 		//dodawanie tabeli to sceny
 		stage.addActor(table);
