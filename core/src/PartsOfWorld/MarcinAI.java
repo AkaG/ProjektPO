@@ -14,7 +14,7 @@ public class MarcinAI extends AIPlayer {
 	
 	@Override
 	public void initTextures() {
-		 textureAtlas = new TextureAtlas(Gdx.files.internal("PlayerSprites/player3.atlas"));
+		 textureAtlas = new TextureAtlas(Gdx.files.internal("PlayerSprites/player5.atlas"));
 			GoAnimation = new Animation(0.1f, (textureAtlas.findRegion("1")), (textureAtlas.findRegion("2")),
 					(textureAtlas.findRegion("3")));
 			StayAnimation = new Animation(0.1f, (textureAtlas.findRegions("4")));
