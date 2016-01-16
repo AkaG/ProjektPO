@@ -13,7 +13,7 @@ import game.api.MyGame.GameMode;
 
 public class FirstMenu extends AbstractMenu {
 	
-	private TextButton startButton, startButton2, buttonExit;
+	private TextButton startButton, startButton2, startButton3, buttonExit;
 	private MyGame myGame;
 	
 	public FirstMenu(Stage stage, MyGame game) {
@@ -47,6 +47,19 @@ public class FirstMenu extends AbstractMenu {
 			}
 		});
 		
+		startButton3 = new TextButton("CPU VS CPU", textButtonStyle);
+		startButton3.pad(20);
+		startButton3.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				// TODO Auto-generated method stub
+				super.clicked(event, x, y);
+				
+				MyGame.mode = GameMode.CPU_VS_CPU;
+				myGame.setScreen(new GameScreen());
+			}
+		});
+		
 		buttonExit = new TextButton("EXIT", textButtonStyle);
 		buttonExit.pad(20);
 		buttonExit.setWidth(500);
@@ -66,6 +79,8 @@ public class FirstMenu extends AbstractMenu {
 		table.add(startButton).width(200);
 		table.add().row();
 		table.add(startButton2).width(200);
+		table.add().row();
+		table.add(startButton3).width(200);
 		table.add().row();
 		table.add(buttonExit).width(200);
 		

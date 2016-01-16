@@ -12,6 +12,9 @@ import PartsOfWorld.Bullet;
 import PartsOfWorld.HumanPlayer;
 import PartsOfWorld.HumanPlayer2;
 import PartsOfWorld.KubaAI;
+import PartsOfWorld.MarcinAI;
+import PartsOfWorld.MateuszAI;
+import PartsOfWorld.MikolajAI;
 import PartsOfWorld.Platform;
 import PartsOfWorld.Player;
 import game.api.MyGame.GameMode;
@@ -63,6 +66,16 @@ public class GameWorld {
 			
 			// OBSLUGA KLAWIATURY
 			multiplexer.addProcessor(player);
+			break;
+			
+		case CPU_VS_CPU:
+			
+			// TWORZENIE GRACZY I DODAWANIE ICH NA LISTE
+			players.add(new AdamAI(600, 500, Player.TypeOfGun.PISTOL));
+			players.add(new KubaAI(400, 500, Player.TypeOfGun.PISTOL));
+			players.add(new MateuszAI(600, 200, Player.TypeOfGun.PISTOL));
+			players.add(new MarcinAI(150, 400, Player.TypeOfGun.PISTOL));
+			players.add(new MikolajAI(200, 200, Player.TypeOfGun.PISTOL));			
 			break;
 
 		}

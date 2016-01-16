@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public final class KubaAI extends AIPlayer {
 
-	public KubaAI(float x, float y, Player.TypeOfGun gun) { // konstruktor musi byc
+	public KubaAI(float x, float y, Player.TypeOfGun gun) { 
 		super(x, y, gun);
 		initTextures();
 		name = "Kuba";
@@ -24,7 +24,7 @@ public final class KubaAI extends AIPlayer {
 	}
 
 	
-	public void AIUpdate(float delta) { // przykladowe uzycie funkcji, nie zapomniec o ai przed funkcja
+	public void AIUpdate(float delta) { 
 		AIjump();
 	}
 	
