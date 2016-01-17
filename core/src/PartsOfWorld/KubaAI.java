@@ -29,37 +29,27 @@ public final class KubaAI extends AIPlayer {
 	
 	private Vec2f findNearestEnemy(){
 		Vec2f tmp = null;
+		float minDist = 0;
 		for(Vec2f enemy : enemyPosition) {
 			if(tmp == null){
 				tmp = enemy;
+				if(enemy.x > x){
+					minDist = enemy.x - x;
+				}else{
+					minDist = x - enemy.x;
+				}
 				continue;
 			}
 			else{
-				if(enemy.x > x+0.5 && enemy.x < x-0.5){
-					if(enemy.y == y || enemy.y < y+10){
-						
-					if(enemy.x < x){
-						if(x < tmp.x){
-							if(x - enemy.x < tmp.x - x){
-								tmp = enemy;
-							}
-						}else{
-							if(x - enemy.x < x - tmp.x){
-								tmp = enemy;
-							}
-						}
-					}else{
-						if(x < tmp.x){
-							if(enemy.x - x < tmp.x - x){
-								tmp = enemy;
-							}
-						}else{
-							if(enemy.x - x < x - tmp.x){
-								tmp = enemy;
-							}
-						}
-					}
-					}
+				float dist = 0;
+				if(enemy.x > x){
+					dist = enemy.x - x;
+				}else{
+					dist = x - enemy.x;
+				}
+				if(dist < minDist){
+					minDist = dist;
+					tmp = enemy;
 				}
 			}
 		}
@@ -79,21 +69,32 @@ public final class KubaAI extends AIPlayer {
 		}
 		
 		if(nearX < x){
-			AImoveLeft();
+			if(x - nearX > 30)
+				AImoveLeft();
+			else 
+				AIStay();
 		}
 		if(nearX > x){
-			AImoveRight();
+			if(nearX - x > 30)
+				AImoveRight();
+			else 
+				AIStay();
 		}
 		
 		if(nearY < y-100){
 			AImoveLeft();
 		}
 		
+		if(nearY-70 > y){
+			AImoveRight();
+			AIjump();
+		}
+		
 		if(nearY-20 > y){
 			AIjump();
 		}
 		
-		if(counter == 0){
+		if(counter == 0 && y < 50){
 			AIjump();
 		}
 			
