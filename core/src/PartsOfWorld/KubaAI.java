@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.sun.javafx.geom.Vec2f;
+import com.sun.org.apache.xalan.internal.utils.ConfigurationError;
 
 public final class KubaAI extends AIPlayer {
 
@@ -13,7 +14,7 @@ public final class KubaAI extends AIPlayer {
 		super(x, y, gun);
 		initTextures();
 		name = "Kuba";
-		// TODO Auto-generated constructor stu
+		
 	}
 	
 	public void initTextures() {
@@ -27,14 +28,16 @@ public final class KubaAI extends AIPlayer {
 	}
 	
 	private Vec2f findNearestEnemy(){
-		Vec2f tmp = new Vec2f();
+		Vec2f tmp = null;
 		for(Vec2f enemy : enemyPosition) {
 			if(tmp == null){
 				tmp = enemy;
 				continue;
 			}
 			else{
-				if(enemy.x != x && enemy.y != y){
+				if(enemy.x > x+0.5 && enemy.x < x-0.5){
+					if(enemy.y == y || enemy.y < y+10){
+						
 					if(enemy.x < x){
 						if(x < tmp.x){
 							if(x - enemy.x < tmp.x - x){
@@ -56,20 +59,47 @@ public final class KubaAI extends AIPlayer {
 							}
 						}
 					}
+					}
 				}
 			}
 		}
 		return tmp;
 	}
 	
+	private float nearX, nearY; 
+	private int counter;
+	
 	public void AIUpdate(float delta) { 
-		Vec2f tmp = findNearestEnemy();
-		if (tmp != null){
-			if(tmp.x < x)
-				AImoveLeft();
-			else
-				AImoveRight();
+		if(counter % 20 == 0){
+			Vec2f tmp = findNearestEnemy();
+			if(tmp != null){
+				nearX = tmp.x;
+				nearY = tmp.y;
+			}
 		}
+		
+		if(nearX < x){
+			AImoveLeft();
+		}
+		if(nearX > x){
+			AImoveRight();
+		}
+		
+		if(nearY < y-100){
+			AImoveLeft();
+		}
+		
+		if(nearY-20 > y){
+			AIjump();
+		}
+		
+		if(counter == 0){
+			AIjump();
+		}
+			
+		AIshoot();
+		counter = (counter + 1)%500;
+		
 	}
 	
 }
