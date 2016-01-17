@@ -43,6 +43,7 @@ public abstract class Player extends MovingObject implements IPlayerControls{
     //ZYCIE
     protected Texture healthTexture;
     protected Rectangle healthPoints;
+    protected int lifes;
     
     String name;
     
@@ -83,8 +84,9 @@ public abstract class Player extends MovingObject implements IPlayerControls{
         }
         
         //ZYCIE
-        healthTexture = new Texture("hp.png");
-        healthPoints = new Rectangle(this.getX(),this.getY(),width*2,20); //100 punktów ¿ycia
+        this.healthTexture = new Texture("hp.png");
+        this.healthPoints = new Rectangle(this.getX(),this.getY(),width*2,20); //100 punktów ¿ycia
+        this.lifes = 4;
         
     }
 
@@ -198,6 +200,11 @@ public abstract class Player extends MovingObject implements IPlayerControls{
 		
 	}
 	
+	public void updateEnemyBulletsPositions(ArrayList<Vec2f> bulletsPos)
+	{
+		
+	}
+	
 //////////////////////////////////////GETTERY I SETTERY
 	
 	
@@ -252,6 +259,21 @@ public abstract class Player extends MovingObject implements IPlayerControls{
 	
 	public String getName() {
 		return this.name;
+	}
+	
+	public Vec2f getPosition()
+	{
+		return new Vec2f(this.x,this.y);
+	}
+	
+	public void decrementLifes()
+	{
+		this.lifes --;
+	}
+	
+	public int getLifes()
+	{
+		return this.lifes;
 	}
 	
 }

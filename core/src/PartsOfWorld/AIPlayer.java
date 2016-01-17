@@ -12,10 +12,16 @@ public abstract class AIPlayer extends Player implements IAIControl {
 
 	AIPlayer enemy;
 	ArrayList<Vec2f> enemyPosition;
-	
+	ArrayList<Vec2f> bulletsPositions;
+			
 	public AIPlayer(float x, float y, Player.TypeOfGun gun) {
 		super(x, y,gun);
+
 		enemyPosition = new ArrayList<Vec2f>();
+
+		
+		enemyPosition = new ArrayList<Vec2f>();
+		bulletsPositions = new ArrayList<Vec2f>();
 	}
 	
 	public boolean AIjump() {
@@ -60,6 +66,11 @@ public abstract class AIPlayer extends Player implements IAIControl {
 	
 	public void updateEnemyPosition(ArrayList<Vec2f> otherPos){
 		enemyPosition = otherPos;
+	}
+	
+	public void updateEnemyBulletsPositions(ArrayList<Vec2f> bulletsPos)
+	{
+		this.bulletsPositions = bulletsPos;
 	}
 	
 	public abstract void AIUpdate(float delta); /* tu sobie kazdy napisze AI */  

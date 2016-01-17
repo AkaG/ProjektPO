@@ -1,15 +1,23 @@
 package PartsOfWorld;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.sun.javafx.geom.Vec2f;
 
 public class MateuszAI extends AIPlayer {
 
+	Random random;
+	private float timer = 0;
+	
 	public MateuszAI(float x, float y, TypeOfGun gun) {
 		super(x, y, gun);
 		initTextures();
 		name = "Mateusz";
+		
+		random = new Random();
 	}
 	
 	@Override
@@ -25,7 +33,12 @@ public class MateuszAI extends AIPlayer {
 	@Override
 	public void AIUpdate(float delta) {
 		// TODO Auto-generated method stub
+		
+	}
 
+	public void randomMove()
+	{
+	
 	}
 
 }

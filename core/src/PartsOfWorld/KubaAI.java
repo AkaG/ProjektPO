@@ -27,7 +27,7 @@ public final class KubaAI extends AIPlayer {
 	}
 	
 	private Vec2f findNearestEnemy(){
-		Vec2f tmp = new Vec2f();
+		Vec2f tmp = null;
 		for(Vec2f enemy : enemyPosition) {
 			if(tmp == null){
 				tmp = enemy;
@@ -63,7 +63,7 @@ public final class KubaAI extends AIPlayer {
 	}
 	
 	public void AIUpdate(float delta) { 
-		Vec2f tmp = findNearestEnemy();
+		Vec2f tmp  = findNearestEnemy();
 		if (tmp != null){
 			if(tmp.x < x)
 				AImoveLeft();
