@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.sun.javafx.geom.Vec2f;
 import com.sun.org.apache.xalan.internal.utils.ConfigurationError;
 
+import sun.net.www.content.audio.aiff;
+
 public final class KubaAI extends AIPlayer {
 
 	public KubaAI(float x, float y, Player.TypeOfGun gun) { 
@@ -69,16 +71,18 @@ public final class KubaAI extends AIPlayer {
 		}
 		
 		if(nearX < x){
-			if(x - nearX > 30)
+			if(x - nearX > 60)
 				AImoveLeft();
 			else 
-				AIStay();
+				if(dir == Direction.RUN_LEFT)
+					AIStay();
 		}
 		if(nearX > x){
-			if(nearX - x > 30)
+			if(nearX - x > 60)
 				AImoveRight();
 			else 
-				AIStay();
+				if(dir == Direction.RUN_RIGHT)
+					AIStay();
 		}
 		
 		if(nearY < y-100){
@@ -96,6 +100,11 @@ public final class KubaAI extends AIPlayer {
 		
 		if(counter == 0 && y < 50){
 			AIjump();
+		}
+		
+		if(counter == 0){
+			AIjump();
+			AImoveRight();
 		}
 			
 		AIshoot();
