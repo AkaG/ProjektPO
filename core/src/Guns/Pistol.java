@@ -11,7 +11,7 @@ public class Pistol extends Gun{
 		
 		timePerShoot = 0.5f;
 		bulletSpeed = 500;
-		damage = 5;
+		damage = 10;
 		
 		width = 20;
 		height = 5;

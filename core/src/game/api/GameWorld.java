@@ -39,6 +39,9 @@ public class GameWorld {
 	private AdamAI adamAI;
 
 	private ArrayList<Platform> platforms;
+	private ArrayList<Vec2f> playersPosition;
+	private ArrayList<Vec2f> bulletsPosition;
+	
 	
 	Texture backgroundTexture;
 
@@ -52,6 +55,8 @@ public class GameWorld {
 	public GameWorld() {
 		
 		players = new ArrayList<Player>();
+		playersPosition = new ArrayList<Vec2f>();
+		bulletsPosition = new ArrayList<Vec2f>();
 		multiplexer = new InputMultiplexer();
 		
 		gameOver = false;
@@ -111,23 +116,47 @@ public class GameWorld {
 	}
 
 	public void update(float delta) {
-		ArrayList<Vec2f> playersPosition;
-		playersPosition = new ArrayList<Vec2f>();
+		playersPosition.clear();
+		bulletsPosition.clear();
 		
 		Iterator<Player> pl = players.iterator();
-		while(pl.hasNext()){
-			Player player = pl.next();
-			playersPosition.add(new Vec2f(player.getX(),player.getY()));
-		}
-		
-		pl = players.iterator();
 		while (pl.hasNext()) {
 			Player player = pl.next();
 			
+			ArrayList<Vec2f> tempPlayerPositions = new ArrayList<Vec2f>();
+			ArrayList<Vec2f> tempBulletsPositions = new ArrayList<Vec2f>();
+			
+			//DODAWANIE POZYCJI INNYCH GRACZY I ICH POCISKOW
+			for(Player p: players)
+			{
+				if(player != p)
+				{
+					for(Bullet b :p.getGun().getBullets())
+					{
+						if(b.getX() > 0 && b.getX() < Gdx.graphics.getWidth())
+						{
+							tempBulletsPositions.add(new Vec2f(b.getX(),b.getY()));
+						}
+					
+					}
+					
+					tempPlayerPositions.add(new Vec2f(p.getX(),p.getY()));
+				}
+			}
+			
+			
+			for(Vec2f t : playersPosition)
+			{
+				if(t.x != player.getX() && t.y != player.getY())
+					tempPlayerPositions.add(t);
+			}
+			
+			
 			//AKTUALIZACJA PLAYEROW
 			player.update(delta);
-			player.updateEnemyPosition(playersPosition);
-			
+			player.updateEnemyPosition(tempPlayerPositions);
+			player.updateEnemyBulletsPositions(tempBulletsPositions);
+
 			//KOLIZJA Z PLATFORMAMI
 			for (Platform platform : platforms)
 				if (isOnPlatform(platform, player)) {
@@ -139,6 +168,7 @@ public class GameWorld {
 			// SPRAWDZANIE CZY ZOSTALO ZYCIE
 			if (player.getHealthPoints().width < 0) {
 				// JESLI JESZCZE MA BRON DOSTAJE NASTEPNE ZYCIE
+					player.decrementLifes();
 					switch(player.getGunType()){
 					case PISTOL:
 						player.setHealthPoints(100);
@@ -185,8 +215,25 @@ public class GameWorld {
 				for (int j = 0; j < players.size(); j++) {
 					if (players.get(j).contains(bullet.getX(), bullet.getY()) && j != i) {
 						players.get(j).takeDamage(players.get(i).getGun().getDamage());
-						b.remove();
+						bullet.setY(-100);
 					}
+				}
+			}
+		}
+		
+		for(Player p: players)
+		{
+			//USUWANIE POCISKOW POZA MAPA
+			for(int i = 0;i<p.getGun().getBullets().size();)
+			{
+				if(p.getGun().getBullets().get(i).getX() < 0 || p.getGun().getBullets().get(i).getX() > Gdx.graphics.getWidth())
+				{
+					p.getGun().getBullets().remove(i);
+					
+				}
+				else
+				{
+					i++;
 				}
 			}
 		}
