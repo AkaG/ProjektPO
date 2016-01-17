@@ -9,9 +9,9 @@ public class AssaultRifle extends Gun{
 	public AssaultRifle(Player player) {
 		super(player);
 		// TODO Auto-generated constructor stub
-		timePerShoot = 0.05f;
+		timePerShoot = 0.15f;
 		bulletSpeed = 500;
-		damage = 2;
+		damage = 5;
 		
 		width = 30;
 		height = 15;

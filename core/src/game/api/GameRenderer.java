@@ -3,6 +3,7 @@ package game.api;
 import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -52,6 +53,7 @@ public class GameRenderer {
 		}
 
 		// RYSOWANIE GRACZY
+		int i = 0;
 		for (Player p : myWorld.getPlayers()) {
 			p.draw(batch);
 			
@@ -64,7 +66,12 @@ public class GameRenderer {
 				}
 			
 			//RYSOWANIE NAZW
+			font.setColor(Color.WHITE);
 			font.draw(batch, p.getName(), p.getX(), p.getY()+p.getHeight()+40);
+			
+			font.setColor(Color.TAN);
+			String s = p.getName() +" lifes: "+ p.getLifes();
+			font.draw(batch, s, Gdx.graphics.getWidth()-110 , Gdx.graphics.getHeight() - (i+=20) );
 		}
 		
 		

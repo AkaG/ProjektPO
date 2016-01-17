@@ -33,7 +33,7 @@ public class Bullet extends MovingObject{
 		
 		if(pDirection == Player.Direction.RUN_RIGHT || pDirection == Player.Direction.STAY_RIGHT){
 			dir = Direction.RIGHT;
-			this.x = _x + gunWidth;
+			this.x = _x + gunWidth*2;
 		}
 
 	
@@ -47,6 +47,19 @@ public class Bullet extends MovingObject{
 
 	public void draw(SpriteBatch batch)
 	{
-		batch.draw(texture,this.x,this.y,this.width,this.height);
+		boolean flip = true;
+		if(dir == Direction.LEFT) flip = false;
+		batch.draw(texture, this.x, this.y, 0, 0, this.width, this.height, 1.f, 1.f, 0.f, 0, 0,texture.getWidth() , texture.getHeight(), flip, false);
+		
+	}
+	
+	public float getX()
+	{
+		return this.x;
+	}
+	
+	public float getY()
+	{
+		return this.y;
 	}
 }
