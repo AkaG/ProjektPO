@@ -30,7 +30,7 @@ public class MarcinAI extends AIPlayer {
 		// TODO Auto-generated method stub
 		jumpWhenTheBulletIsClose();
 		AIshoot();
-		doKąta();
+		dokata();
 
 	}
 
@@ -42,7 +42,7 @@ public class MarcinAI extends AIPlayer {
 		}
 	}
 
-	public void doKąta () {
+	public void dokata () {
 		if (this.getY() != 0 && this.getX() != 0) {
 			this.AImoveLeft();
 		} else this.setDir(Direction.STAY_RIGHT);
