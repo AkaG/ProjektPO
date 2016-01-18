@@ -3,6 +3,7 @@ package game.api;
 import java.io.Console;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
 
@@ -32,6 +33,8 @@ import sun.security.pkcs11.P11TlsKeyMaterialGenerator;
 
 public class GameWorld {
 
+	Random random;
+
 	private ArrayList<Player> players;
 	private HumanPlayer player;
 	private HumanPlayer2 player2;
@@ -53,6 +56,8 @@ public class GameWorld {
 	private String winnerName;
 
 	public GameWorld() {
+
+		random = new Random();
 		
 		players = new ArrayList<Player>();
 		playersPosition = new ArrayList<Vec2f>();
@@ -62,7 +67,7 @@ public class GameWorld {
 		gameOver = false;
 		winnerName = "";
 		
-		// WYBÓR TRYBU GRY
+		// WYBï¿½R TRYBU GRY
 		mode = MyGame.mode;
 		switch (mode) {
 		case PLAYER_VS_PLAYER:
@@ -174,19 +179,19 @@ public class GameWorld {
 						player.setHealthPoints(100);
 						player.setGun(new SniperRifle(player));
 						player.setGunType(TypeOfGun.SNIPER_RIFLE);
-						player.setPosition(400, 500);
+						player.setPosition(random.nextInt(800), random.nextInt(600));
 						break;
 					case SNIPER_RIFLE:
 						player.setHealthPoints(100);
 						player.setGun(new AssaultRifle(player));
 						player.setGunType(TypeOfGun.ASSAULT_RIFLE);
-						player.setPosition(400, 500);
+						player.setPosition(random.nextInt(800), random.nextInt(600));
 						break;
 					case ASSAULT_RIFLE:
 						player.setHealthPoints(100);
 						player.setGun(new Shotgun(player));
 						player.setGunType(TypeOfGun.SHOTGUN);
-						player.setPosition(400, 500);
+						player.setPosition(random.nextInt(800), random.nextInt(600));
 						break;
 					case SHOTGUN:
 						pl.remove();
